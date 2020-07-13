@@ -4,18 +4,19 @@ $('a[href="#"]').click(function (e) {
 })
 /* --- MENU LISTENERS --- */
 $(".sidebar-dropdown > a").click(function () {
-   $(".sidebar-submenu").slideUp(200);
+
    if (
       $(this)
       .parent()
       .hasClass("active")
    ) {
-      $(".sidebar-dropdown").removeClass("active");
       $(this)
          .parent()
          .removeClass("active");
+      $(this).next().slideUp(200);
    } else {
-      $(".sidebar-dropdown").removeClass("active");
+      // $(".sidebar-dropdown").removeClass("active");
+      $(this).next().removeClass("active");
       $(this)
          .next(".sidebar-submenu")
          .slideDown(200);
@@ -23,16 +24,25 @@ $(".sidebar-dropdown > a").click(function () {
          .parent()
          .addClass("active");
    }
+
+
 });
 
-$(".sidebar-menu  li > a").click(function () {
-   $(this).children().first().toggleClass(" fa-folder fa-folder-open")
+$(".sidebar-menu a").click(function () {
+   if ($(this).parent().parent().find(".open").length > 0) {
+      $click = $(this)
+      $(this).parent().parent().find(".open").each(function (i, opened) {
+         if (!$click.is($(opened))) {
+            $(opened).toggleClass("open")
+            $(opened).children().first().toggleClass("fa-folder fa-folder-open")
+         }
+         if ($(opened).parent()
+            .hasClass("active")) {
+            $(opened).parent().removeClass("active")
+            $(opened).next().slideUp("200")
+         }
+      })
+   }
+   $(this).toggleClass("open")
+   $(this).children().first().toggleClass("fa-folder fa-folder-open")
 })
-
-
-$("#close-sidebar").click(function () {
-   $(".page-wrapper").removeClass("toggled");
-});
-$("#show-sidebar").click(function () {
-   $(".page-wrapper").addClass("toggled");
-});

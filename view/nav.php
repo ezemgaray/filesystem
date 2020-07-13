@@ -6,7 +6,11 @@
 
       <div class="sidebar-menu">
          <ul class="mt-2">
-            <li class="sidebar-dropdown">
+            <?php
+            printMenu("root/");
+            ?>
+            <!-- 
+               <li class="sidebar-dropdown">
                <a href="#">
                   <i class="fa fa-folder"></i>
                   <span>Panel</span>
@@ -73,7 +77,7 @@
                   <i class="fa fa-folder"></i>
                   <span>Logout</span>
                </a>
-            </li>
+            </li> -->
          </ul>
       </div>
       <!-- sidebar-menu  -->
