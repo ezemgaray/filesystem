@@ -72,6 +72,7 @@ p{
    height: calc(100% - 30px);
    overflow-y: auto;
    position: relative;
+   padding: 20px 10px;
 }
 
 .sidebar-content.desktop {
@@ -154,10 +155,7 @@ p{
    width: 100%;
    padding-left: 0px;
    padding-top: 20px;
-}
-
-.page-wrapper .page-content>div {
-   padding: 20px 40px;
+   /* margin: 0 auto; */
 }
 
 .page-wrapper .page-content {
@@ -228,3 +226,15 @@ p{
 .chiller-theme .sidebar-wrapper .sidebar-menu .sidebar-dropdown.active a i {
    color: #000;
 }
+
+/*---------------------- MAIN VIEW -------------------------*/
+.main-view{
+   text-align: justify;
+   padding: 20px;
+}
+/*---------------------- ASIDE VIEW -------------------------*/
+
+.aside-view {
+   padding: 20px 10px;
+}
+

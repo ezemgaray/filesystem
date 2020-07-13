@@ -12,100 +12,17 @@
 </head>
 
 <body>
-   <header>
-      <h3 style="border: solid 1px #000;">hola</h3>
-   </header>
-   <div class="page-wrapper chiller-theme ">
+   <div class="page-wrapper chiller-theme d-flex">
 
-      <nav id="sidebar" class="sidebar-wrapper ">
-         <div class="sidebar-content">
-            <div class="sidebar-brand">
-               <p>Folders</p>
-            </div>
+      <?php
+      include("view/nav.php");
+      ?>
 
-            <div class="sidebar-menu">
-               <ul class="mt-2">
-                  <li class="sidebar-dropdown">
-                     <a href="#">
-                        <i class="fa fa-folder"></i>
-                        <span>Panel</span>
-                     </a>
-                     <div class="sidebar-submenu">
-                        <ul>
-                           <li>
-                              <a href="">
-                                 <i class="fa fa-folder"></i>
-                                 Home
-                              </a>
-                           </li>
-                           <li>
-                              <a href="">
-                                 <i class="fa fa-folder"></i>
-                                 Home
-                              </a>
-                           </li>
-                           <li>
-                              <a href="">
-                                 <i class="fa fa-folder"></i>
-                                 Home
-                              </a>
-                           </li>
-                        </ul>
-                     </div>
-                  </li>
-                  <li class="sidebar-dropdown">
-                     <a href="#">
-                        <i class="fa fa-folder"></i>
-                        <span>Panel</span>
-                     </a>
-                     <div class="sidebar-submenu">
-                        <ul>
-                           <li>
-                              <a href="">
-                                 <i class="fa fa-folder"></i>
-                                 Home
-                              </a>
-                           </li>
-                           <li>
-                              <a href="">
-                                 <i class="fa fa-folder"></i>
-                                 Home
-                              </a>
-                           </li>
-                           <li>
-                              <a href="">
-                                 <i class="fa fa-folder"></i>
-                                 Home
-                              </a>
-                           </li>
-                        </ul>
-                     </div>
-                  </li>
-                  <li>
-                     <a href="#">
-                        <i class="fa fa-folder"></i>
-                        <span>Home</span>
-                     </a>
-                  </li>
-                  <li>
-                     <a href="#">
-                        <i class="fa fa-folder"></i>
-                        <span>Logout</span>
-                     </a>
-                  </li>
-               </ul>
-            </div>
-            <!-- sidebar-menu  -->
-         </div>
-      </nav>
-
-      <main class="page-content">
-         <div class="container-fluid">
-
-            <?php
-            ?>
-
-         </div>
+      <main class="page-content w-75  d-flex ">
+         <?php
+         include("view/main.php");
+         include("view/aside.php");
+         ?>
 
       </main>
    </div>
