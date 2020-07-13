@@ -1,3 +1,4 @@
+
 p{
    margin-bottom: 0;
 }
@@ -232,9 +233,19 @@ p{
    text-align: justify;
    padding: 20px;
 }
+
 /*---------------------- ASIDE VIEW -------------------------*/
 
 .aside-view {
    padding: 20px 10px;
+}
+
+/*---------------------- FILE CARD -------------------------*/
+.file{
+   cursor: pointer;
+}
+.file:hover {
+   background-color: #000;
+   color: #fff;
 }
 

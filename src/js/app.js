@@ -4,7 +4,6 @@ $('a[href="#"]').click(function (e) {
 })
 /* --- MENU LISTENERS --- */
 $(".sidebar-dropdown > a").click(function () {
-
    if (
       $(this)
       .parent()
@@ -24,8 +23,6 @@ $(".sidebar-dropdown > a").click(function () {
          .parent()
          .addClass("active");
    }
-
-
 });
 
 $(".sidebar-menu a").click(function () {
@@ -45,4 +42,30 @@ $(".sidebar-menu a").click(function () {
    }
    $(this).toggleClass("open")
    $(this).children().first().toggleClass("fa-folder fa-folder-open")
+   sendRequestFiles()
 })
+
+/* --- REQUEST FILES --- */
+function sendRequestFiles() {
+   $("#result").html("")
+   let uri = ""
+   if ($(".open").length) {
+      $(".open").each(function () {
+         uri += $(this).text() + "/"
+      })
+      $("#rout").text(uri.split("/").join(" / "))
+      $.ajax({
+         type: "POST",
+         url: "get-files.php",
+         data: {
+            "uri": uri
+         },
+         success: function (data) {
+            $("#result").append(data)
+         }
+      })
+   }else{
+      $("#rout").text(" ")
+   }
+
+}

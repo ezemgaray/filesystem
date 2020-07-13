@@ -1,5 +1,7 @@
 <?php
-
+/**
+ * Search folders recursively to print side menu
+ */
 function printMenu($target)
 {
    if (is_dir($target)) {
