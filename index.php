@@ -18,14 +18,21 @@ require("functions.php");
    <!-- <div class="page-wrapper  d-flex"> -->
 
 
-      <main class="page-content page-wrapper chiller-theme w-100  d-flex ">
-         <?php
-         include("view/nav.php");
-         include("view/main.php");
-         include("view/aside.php");
-         ?>
+   <div class="border-bottom d-flex justify-content-between align-items-center p-2 m-auto w-100">
+      <h3 class="m-0 ml-2">FileSystem</h3>
+      <form class="form-inline d-flex justify-content-center md-form form-sm active-cyan-2 ">
+         <input class="form-control form-control-sm mr-3 w-75" type="text" placeholder="Search" aria-label="Search">
+         <i class="fas fa-search" aria-hidden="true"></i>
+      </form>
+   </div>
+   <main class="page-content page-wrapper chiller-theme d-flex">
+      <?php
+      include("view/nav.php");
+      include("view/main.php");
+      include("view/aside.php");
+      ?>
 
-      </main>
+   </main>
    <!-- </div> -->
    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>

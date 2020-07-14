@@ -19,9 +19,14 @@ p{
 }
 
 /*----------------page-wrapper----------------*/
+body{
+   height: calc(100vh - 51px);
+}
 
 .page-wrapper {
-   height: 100vh;
+   height: 100%;
+   margin: 0 auto;
+   overflow-x: auto;
 }
 
 .page-wrapper .theme {
@@ -172,7 +177,7 @@ p{
    width: 100%;
    padding-left: 0px;
    padding-top: 20px;
-   /* margin: 0 auto; */
+
 }
 
 .page-wrapper .page-content {
@@ -226,11 +231,6 @@ p{
 /*-----------------------------chiller-theme-------------------------------------------------*/
 
 
-.chiller-theme .sidebar-wrapper .sidebar-menu {
-   border-top: 1px solid #3a3f48;
-}
-
-
 .chiller-theme .sidebar-wrapper .sidebar-menu ul li:hover>a,
 .chiller-theme .sidebar-wrapper .sidebar-menu .sidebar-dropdown.active>a {
    color: #000;
@@ -260,9 +260,13 @@ p{
 .breadcrumb{
    height: 1.5em;
    width: 80%;
-   min-width: 350px;
+   min-width: 300px;
    padding: 0 10px;
    margin: 0;
+   margin-right: 15px;
+   display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
    overflow: hidden;
 }
 

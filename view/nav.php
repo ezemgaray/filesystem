@@ -7,7 +7,7 @@
          </a>
       </div>
 
-      <div class="sidebar-menu border-bottom">
+      <div class="sidebar-menu border-bottom border-top">
          <ul class="mt-2">
             <?php
             printMenu("root/");
