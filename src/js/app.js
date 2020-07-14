@@ -109,7 +109,6 @@ function printFile(data) {
 }
 
 $("#folders").on("dblclick", "div", function (e) {
-   $(this).focus()
    $opened = $(".open").last().parent()
    $name = $(this).children().first().text().trim()
    $($opened.find('[data-name="' + $name + '"]')).click()
@@ -132,6 +131,9 @@ function getOpenFilePath(forInfo = ""){
 }
 
 /* --- SHOW INFO --- */
+$("#folders, #files").on("click", "div", function (e) {
+   showInfo(getOpenFilePath($(this).text()))
+})
 
 
 function showInfo(path){
