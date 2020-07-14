@@ -113,7 +113,6 @@ $("#folders").on("dblclick", "div", function (e) {
    $opened = $(".open").last().parent()
    $name = $(this).children().first().text().trim()
    $($opened.find('[data-name="' + $name + '"]')).click()
-
 })
 
 /**
@@ -130,4 +129,21 @@ function getOpenFilePath(forInfo = ""){
    })
    uri += forInfo
    return uri
+}
+
+/* --- SHOW INFO --- */
+
+
+function showInfo(path){
+   $.ajax({
+      type: "POST",
+      url: "show-info.php",
+      data: {
+         "path": path
+      },
+      success: function (data) {
+         console.log(data);
+         $(".aside-view").html("").append(data)
+      }
+   })
 }
