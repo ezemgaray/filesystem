@@ -251,9 +251,10 @@ body{
 .file{
    cursor: pointer;
 }
-.file:hover {
+.file:hover, .file:focus {
    background-color: #000;
    color: #fff;
+   outline: none;
 }
 
 /*---------------------- BREADCRUMB -------------------------*/

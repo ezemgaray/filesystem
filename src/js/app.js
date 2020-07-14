@@ -70,11 +70,9 @@ function sendRequestFiles() {
             data = JSON.parse(data)
             if (data.files)
                printFile(data.files)
-            else
-               printFile()
             if (data.folders)
                printFolder(data.folders)
-            else
+            if (!data.folders && !data.files)
                printFolder()
          }
       })
@@ -93,8 +91,6 @@ function printBreadcrumb(uri) {
       $("#breadcrumb").text(uri.split("/").join(" / "))
    else
       $("#breadcrumb").text(" ")
-
-
 }
 
 /**
@@ -102,24 +98,23 @@ function printBreadcrumb(uri) {
  * @param {*String} data -> File card
  */
 function printFolder(data = "") {
-   // if (data.length)
+   if (data.length)
       $("#folders").append(data)
-   // else
-      // $("#folders").append(`<div class="alert alert-warning" role="alert">No folders</div>`)
+   else
+      $("#folders").append(`<div class="alert alert-warning m-2 p-2" role="alert">Empty folder</div>`)
 }
 /**
  * Print file card into main view
  * @param {*String} data -> File card
  */
-function printFile(data = "") {
-   // if (data.length)
-      $("#files").append(data)
-   // else
-      // $("#files").append(`<div class="alert alert-warning" role="alert">No files</div>`)
+function printFile(data) {
+   $("#files").append(data)
 }
 
-$("#folders").on("click", "div", function (e) {
+$("#folders").on("dblclick", "div", function (e) {
+   $(this).focus()
    $opened = $(".open").last().parent()
    $name = $(this).children().first().text().trim()
    $($opened.find('[data-name="' + $name + '"]')).click()
+
 })
