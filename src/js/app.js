@@ -46,10 +46,12 @@ $(".sidebar-menu a").click(function () {
 })
 
 /* --- REQUEST FILES --- */
+
 function sendRequestFiles() {
    $("#result").html("")
    let uri = ""
    if ($(".open").length) {
+      // Build uri
       $(".open").each(function () {
          uri += $(this).text() + "/"
       })
@@ -69,14 +71,21 @@ function sendRequestFiles() {
    }
 }
 
+/**
+ * Print breadcrumb into main view
+ * @param {*String} uri -> folder path
+ */
 function printBreadcrumb(uri){
    if(uri)
       $("#breadcrumb").text(uri.split("/").join(" / "))
    else
       $("#breadcrumb").text(" ")
-
 }
 
+/**
+ * Print file card into main view
+ * @param {*String} data -> File card
+ */
 function printFile(data){
    $("#result").append(data)
 }

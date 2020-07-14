@@ -88,7 +88,6 @@ p{
    align-items: center;
 }
 
-
 /*----------------------sidebar-menu-------------------------*/
 
 .sidebar-wrapper .sidebar-menu {
@@ -257,3 +256,12 @@ p{
    padding: 20px 10px;
 }
 
+.fa.button{
+   font-size: 20px;
+   cursor: pointer;
+}
+.fa.button:hover{
+   font-size: 20px;
+   cursor: pointer;
+   color: rgb(99, 199, 99);
+}
