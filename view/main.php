@@ -3,6 +3,6 @@
       <p id="breadcrumb" class="breadcrumb mb-2"></p>
       <i class="fa fa-file-medical button"></i>
    </div>
-   <div class="d-flex flex-wrap justify-content-round pt-2" id="result">
-   </div>
+   <div class="d-flex flex-wrap justify-content-round p-2 border-bottom" id="folders"></div>
+   <div class="d-flex flex-wrap justify-content-round p-2" id="files"></div>
 </div>

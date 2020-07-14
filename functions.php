@@ -11,7 +11,7 @@ function printMenu($target)
       if (count($files)) {
          //have folders
          echo '<li class="sidebar-dropdown">'
-            . '<a href="#">'
+            . '<a href="#" data-name="' . end($name) . '">'
             . '<i class="fa fa-folder"></i>'
             . '<span>' . end($name) . '</span>'
             . '</a>'
@@ -25,7 +25,7 @@ function printMenu($target)
       } else {
          //have no folders
          echo '<li>'
-            . '<a href="#">'
+            . '<a href="#" data-name="' . end($name) . '">'
             . '<i class="fa fa-folder"></i>' . end($name)
             . '</a>'
             . '</li>';
