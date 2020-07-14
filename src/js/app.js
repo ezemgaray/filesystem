@@ -1,6 +1,6 @@
 // Stop default acction of <a> without link
 $('a[href="#"]').click(function (e) {
-   e.preventDefault();
+   e.preventDefault()
 })
 /* --- MENU LISTENERS --- */
 $(".sidebar-dropdown > a").click(function () {
@@ -11,17 +11,17 @@ $(".sidebar-dropdown > a").click(function () {
    ) {
       $(this)
          .parent()
-         .removeClass("active");
-      $(this).next().slideUp(200);
+         .removeClass("active")
+      $(this).next().slideUp(200)
    } else {
-      // $(".sidebar-dropdown").removeClass("active");
-      $(this).next().removeClass("active");
+      // $(".sidebar-dropdown").removeClass("active")
+      $(this).next().removeClass("active")
       $(this)
          .next(".sidebar-submenu")
-         .slideDown(200);
+         .slideDown(200)
       $(this)
          .parent()
-         .addClass("active");
+         .addClass("active")
    }
 });
 
@@ -61,7 +61,7 @@ function sendRequestFiles() {
             "uri": uri
          },
          success: function (data) {
-            $("#result").append(data)
+            printFile(data)
          }
       })
    }else{
@@ -75,4 +75,8 @@ function printBreadcrumb(uri){
    else
       $("#breadcrumb").text(" ")
 
+}
+
+function printFile(data){
+   $("#result").append(data)
 }
