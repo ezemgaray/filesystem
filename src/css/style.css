@@ -5,7 +5,7 @@ p{
 
 
 .page-wrapper .sidebar-wrapper,
-.sidebar-wrapper .sidebar-brand>a,
+.sidebar-wrapper .sidebar-header>a,
 .sidebar-wrapper .sidebar-dropdown>a:after,
 .sidebar-wrapper .sidebar-menu .sidebar-dropdown .sidebar-submenu li a:before,
 .sidebar-wrapper ul li a i,
@@ -80,9 +80,9 @@ p{
    overflow-y: hidden;
 }
 
-/*--------------------sidebar-brand----------------------*/
+/*--------------------sidebar-header----------------------*/
 
-.sidebar-wrapper .sidebar-brand {
+.sidebar-wrapper .sidebar-header {
    padding: 0 20px;
    display: flex;
    align-items: center;
@@ -234,12 +234,6 @@ p{
    padding: 20px;
 }
 
-/*---------------------- ASIDE VIEW -------------------------*/
-
-.aside-view {
-   padding: 20px 10px;
-}
-
 /*---------------------- FILE CARD -------------------------*/
 .file{
    cursor: pointer;
@@ -247,5 +241,19 @@ p{
 .file:hover {
    background-color: #000;
    color: #fff;
+}
+
+/*---------------------- BREADCRUMB -------------------------*/
+.breadcrumb{
+   height: 1.5em;
+   width: 80%;
+   padding: 0 10px;
+   margin: 0;
+}
+
+/*---------------------- ASIDE VIEW -------------------------*/
+
+.aside-view {
+   padding: 20px 10px;
 }
 
