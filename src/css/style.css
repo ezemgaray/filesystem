@@ -35,6 +35,7 @@ p{
 
 .page-wrapper .sidebar-wrapper {
    left: 0px;
+   min-width: 250px;
 }
 
 @media screen and (min-width: 768px) {
@@ -246,6 +247,7 @@ p{
 .breadcrumb{
    height: 1.5em;
    width: 80%;
+   min-width: 350px;
    padding: 0 10px;
    margin: 0;
 }
@@ -254,6 +256,7 @@ p{
 
 .aside-view {
    padding: 20px 10px;
+   min-width: 250px;
 }
 
 .fa.button{
@@ -264,4 +267,24 @@ p{
    font-size: 20px;
    cursor: pointer;
    color: rgb(99, 199, 99);
+}
+
+a.a-trash{
+   padding: 5px 10px;
+   margin: 10px;
+}
+a.a-trash:hover{
+   background-color: rgb(248, 153, 153);
+   border-radius: 15px;
+   -webkit-border-radius: 15px;
+   -moz-border-radius: 15px;
+   -ms-border-radius: 15px;
+   -o-border-radius: 15px;
+}
+
+a.a-trash i{
+   color: #f00;
+}
+a.a-trash:hover i{
+   color: #000;
 }

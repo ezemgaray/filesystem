@@ -2,12 +2,12 @@
    <div class="sidebar-content ">
       <div class="sidebar-header d-flex justify-content-between">
          <p class="mb-2">Folders</p>
-         <span class=" mb-2">
+         <a href="#" class="mb-2">
             <i class="fa fa-folder-plus button"></i>
-         </span>
+         </a>
       </div>
 
-      <div class="sidebar-menu">
+      <div class="sidebar-menu border-bottom">
          <ul class="mt-2">
             <?php
             printMenu("root/");
@@ -15,5 +15,9 @@
          </ul>
       </div>
       <!-- sidebar-menu  -->
+      <a class="float-right a-trash" href="#">
+         <i class="fa fa-trash"></i>
+         Trash
+      </a>
    </div>
 </nav>
