@@ -56,9 +56,7 @@ function sendRequestFiles() {
    let uri = ""
    if ($(".open").length) {
       // Build uri
-      $(".open").each(function () {
-         uri += $(this).text() + "/"
-      })
+      uri = getOpenFilePath()
       printBreadcrumb(uri)
       $.ajax({
          type: "POST",
@@ -79,7 +77,6 @@ function sendRequestFiles() {
    } else {
       printBreadcrumb(uri)
    }
-
 }
 
 /**
@@ -118,3 +115,19 @@ $("#folders").on("dblclick", "div", function (e) {
    $($opened.find('[data-name="' + $name + '"]')).click()
 
 })
+
+/**
+ * Retur the path of the open file.
+ * To get the path of the file or folder that 
+ * you want to display information, add the name of 
+ * the clicked item in the central view
+ * @param {*String} forInfo  -> name of folder or file clicked element.text()
+ */
+function getOpenFilePath(forInfo = ""){
+   let uri = ""
+   $(".open").each(function () {
+      uri += $(this).text() + "/"
+   })
+   uri += forInfo
+   return uri
+}
