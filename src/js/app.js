@@ -43,6 +43,7 @@ $(".sidebar-menu a").click(function () {
    $(this).toggleClass("open")
    $(this).children().first().toggleClass("fa-folder fa-folder-open")
    sendRequestFiles()
+   $(".sidebar-menu").animate({ scrollLeft: $('.sidebar-menu').prop("scrollWidth")}, 1000);
 })
 
 /* --- REQUEST FILES --- */
