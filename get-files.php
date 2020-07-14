@@ -22,3 +22,11 @@ if (isset($_POST["uri"])) {
    $data += ["folders" => $folders];
    echo json_encode($data);
 }
+
+function getIcon($file){
+   $file = explode(".", $file);
+   switch(array_pop($file)){
+      case "":
+         break;
+   }
+}

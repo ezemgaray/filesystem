@@ -76,7 +76,6 @@ function sendRequestFiles() {
                printFolder(data.folders)
             else
                printFolder()
-
          }
       })
    } else {
