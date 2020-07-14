@@ -53,7 +53,7 @@ function sendRequestFiles() {
       $(".open").each(function () {
          uri += $(this).text() + "/"
       })
-      $("#breadcrumb").text(uri.split("/").join(" / "))
+      printBreadcrumb(uri)
       $.ajax({
          type: "POST",
          url: "get-files.php",
@@ -65,7 +65,14 @@ function sendRequestFiles() {
          }
       })
    }else{
-      $("#breadcrumb").text(" ")
+      printBreadcrumb(uri)
    }
+}
+
+function printBreadcrumb(uri){
+   if(uri)
+      $("#breadcrumb").text(uri.split("/").join(" / "))
+   else
+      $("#breadcrumb").text(" ")
 
 }
