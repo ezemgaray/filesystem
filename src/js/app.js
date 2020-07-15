@@ -1,9 +1,12 @@
+updateMenu()
+
 // Stop default acction of <a> without link
-$('a[href="#"]').click(function (e) {
+$('main').on("click", 'a[href="#"]', function (e) {
    e.preventDefault()
 })
+
 /* --- MENU LISTENERS --- */
-$(".sidebar-dropdown > a").click(function () {
+$("#menu-list").on("click", ".sidebar-dropdown>a", function () {
    if (
       $(this)
       .parent()
@@ -25,7 +28,7 @@ $(".sidebar-dropdown > a").click(function () {
    }
 });
 
-$(".sidebar-menu a").click(function () {
+$(".sidebar-menu").on("click", "a", function () {
    if ($(this).parent().parent().find(".open").length > 0) {
       $click = $(this)
       $(this).parent().parent().find(".open").each(function (i, opened) {
@@ -40,7 +43,7 @@ $(".sidebar-menu a").click(function () {
          }
       })
    }
-   newFileFolderNuttons()
+   $(".aside-view").html("")
    $(this).toggleClass("open")
    $(this).children().first().toggleClass("fa-folder fa-folder-open")
    sendRequestFiles()
@@ -59,6 +62,7 @@ function sendRequestFiles() {
       // Build uri
       uri = getOpenFilePath()
       printBreadcrumb(uri)
+
       $.ajax({
          type: "POST",
          url: "get-files.php",
@@ -66,7 +70,10 @@ function sendRequestFiles() {
             "uri": uri
          },
          success: function (data) {
+            if (uri != getOpenFilePath()) return
             data = JSON.parse(data)
+            $("#folders").html("")
+            $("#files").html("")
             if (data.files)
                printFile(data.files)
             if (data.folders)
@@ -85,10 +92,20 @@ function sendRequestFiles() {
  * @param {*String} uri -> folder path
  */
 function printBreadcrumb(uri) {
-   if (uri)
-      $("#breadcrumb").text(uri.split("/").join(" / "))
-   else
+   if (uri) {
+      // $("#breadcrumb").text(uri.split("/").join(" / "))
+      let arrUri = uri.split("/")
+      arrUri.pop()
+      $(arrUri).each(function (key, value) {
+         arrUri[key] = `<a href="#">${value}</a> / `
+      })
+      $("#breadcrumb").html(arrUri.join(""))
+      newFileFolderButtons(uri)
+
+   } else{
       $("#breadcrumb").text(" ")
+      newFileFolderButtons()
+   }
 }
 
 /**
@@ -99,21 +116,25 @@ function printFolder(data = "") {
    if (data.length)
       $("#folders").append(data)
    else
-      $("#folders").append(`<div class="alert alert-warning m-2 p-2" role="alert">Empty folder</div>`)
+      $("#folders").html("").append(`<div class="alert alert-warning m-2 p-2" role="alert">Empty folder</div>`)
 }
 /**
  * Print file card into main view
  * @param {*String} data -> File card
  */
 function printFile(data) {
-   $("#files").append(data)
+   if (data.length)
+      $("#files").append(data)
+   else
+      $("#files").append("")
+
 }
 
 $("#folders").on("dblclick", "div.file", function (e) {
    $opened = $(".open").last().parent()
    $name = $(this).children().first().text().trim()
    $($opened.find('[data-name="' + $name + '"]')).click()
-   
+
 })
 
 /**
@@ -176,16 +197,18 @@ $("#add-ff").on("click", "a.add-btn", function (e) {
    })
 })
 
-function newFileFolderNuttons() {
-   if (!$("#add-ff").is(':empty')) {
+function newFileFolderButtons(uri) {
+   if (!$("#add-ff").is(':empty') && uri) {
       $("#add-ff").html(`
-         <a href="#" class="m-2 add-btn folder">
+         <a href="#" class="m-1 add-btn folder">
             <i class="fa fa-folder-plus button"></i>
          </a>
-         <a href="#" class="mb-2 add-btn">
+         <a href="#" class="mb-1 add-btn">
             <i class="fa fa-file-medical button"></i>
          </a>
       `)
+   } else {
+      $("#add-ff").html(" ")
    }
 }
 
@@ -201,9 +224,8 @@ function createFolder(path) {
          data = JSON.parse(data)
          if (data.ok) {
             $("#new-folder").parent().parent().remove()
-            $("#folders").append(data.ok)
-
-            // updateMenu()
+            sendRequestFiles()
+            updateMenu(getOpenFilePath())
          } else {
             $("#new-folder").parent().addClass("error")
          }
@@ -211,22 +233,20 @@ function createFolder(path) {
    })
 }
 
-// function updateMenu() {
-//       $.ajax({
-//          type: "POST",
-//          url: "view/nav.php",
-//          data: {
-//             "update": "menu"
-//          },
-//          success: function (data) {
-//             // $("nav").remove()
-//             // $("main").append(data)
-//             // $(data).ready(function(){
-//                // $("nav").prepend(data)
-
-//             // });
-//                $("nav").load("view/nav.php nav");
-
-//          }
-//       })
-// }
+function updateMenu(path = "root/") {
+   $.ajax({
+      type: "POST",
+      url: "print-menu.php",
+      data: {
+         "from": "root/"
+      },
+      success: function (data) {
+         $("#menu-list").html("").append(data)
+         path = path.split("/")
+         path.pop()
+         $(path).each(function (key, name) {
+            $($("#menu-list").find('[data-name="' + name + '"]')).click()
+         })
+      }
+   })
+}

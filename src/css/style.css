@@ -312,6 +312,9 @@ a.a-trash:hover i{
 }
 
 /*---------------------- ADD BTN -------------------------*/
+.add-ff{
+   min-width: 70px;
+}
 .add-btn:link, 
 .add-btn:hover, 
 .add-btn:active, 

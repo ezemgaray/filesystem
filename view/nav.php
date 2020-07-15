@@ -10,10 +10,7 @@ if (isset($_POST["update"])) {
       </div>
 
       <div class="sidebar-menu border-bottom border-top">
-         <ul class="mt-2">
-            <?php
-            printMenu("root/");
-            ?>
+         <ul class="mt-2" id="menu-list">
          </ul>
       </div>
       <!-- sidebar-menu  -->
