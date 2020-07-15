@@ -3,7 +3,7 @@
 ?>
 <div class="container-fluid border-left border-right main-view">
    <div class="border-bottom d-flex justify-content-between">
-      <p id="breadcrumb" class="breadcrumb mb-2"></p>
+      <p id="breadcrumb" class="bread-crumb mb-2"></p>
       <div id="add-ff" class="add-ff">
       </div>
    </div>

@@ -1,5 +1,3 @@
-// console.log(window.location.search);
-// console.log(param.get('root'));
 if (window.location.search) {
    let param = new URLSearchParams(window.location.search)
    updateMenu(param.get("root"))
@@ -24,7 +22,6 @@ $("#menu-list").on("click", ".sidebar-dropdown>a", function () {
          .removeClass("active")
       $(this).next().slideUp(200)
    } else {
-      // $(".sidebar-dropdown").removeClass("active")
       $(this).next().removeClass("active")
       $(this)
          .next(".sidebar-submenu")
@@ -54,7 +51,7 @@ $(".sidebar-menu").on("click", "a", function () {
    $(this).toggleClass("open")
    $(this).children().first().toggleClass("fa-folder fa-folder-open")
    sendRequestFiles()
-   $(".sidebar-menu").animate({
+   $(".sidebar-menu, .bread-crumb").animate({
       scrollLeft: $('.sidebar-menu').prop("scrollWidth")
    }, 1000);
 })
@@ -87,7 +84,7 @@ function sendRequestFiles() {
                printFolder(data.folders)
             if (!data.folders && !data.files)
                printFolder()
-            window.history.pushState('index', uri, './index.php?root=' + uri);
+            window.history.pushState({page: './index.php?root=' + uri}, uri, './index.php?root=' + uri);
          }
       })
    } else {
@@ -104,8 +101,10 @@ function printBreadcrumb(uri) {
       // $("#breadcrumb").text(uri.split("/").join(" / "))
       let arrUri = uri.split("/")
       arrUri.pop()
+      let link = ""
       $(arrUri).each(function (key, value) {
-         arrUri[key] = `<a href="#">${value}</a> / `
+         link += value + "/"
+         arrUri[key] = `<a href="?root=${link}">${value}</a> / `
       })
       $("#breadcrumb").html(arrUri.join(""))
       newFileFolderButtons(uri)

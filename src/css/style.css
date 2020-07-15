@@ -257,17 +257,17 @@ body{
 }
 
 /*---------------------- BREADCRUMB -------------------------*/
-.breadcrumb{
-   height: 1.5em;
+.bread-crumb{
+   height: 2em;
    width: 80%;
    min-width: 300px;
    padding: 0 10px;
    margin: 0;
    margin-right: 15px;
-   display: -webkit-box;
-  -webkit-line-clamp: 1;
-  -webkit-box-orient: vertical;
-   overflow: hidden;
+   word-wrap: normal;
+   white-space: nowrap;
+   overflow-x: scroll;
+   background-color: #e9ecef;
 }
 
 /*---------------------- ASIDE VIEW -------------------------*/
