@@ -167,14 +167,10 @@ function getOpenFilePath(forInfo = "") {
 
 /* --- SHOW INFO --- */
 $("#folders, #files").on("click", "div.file", function (e) {
-   showInfo(getOpenFilePath(($(this).text())))
+   let fullName = $(this).attr("data-ext") == "folder" ? $(this).text() : $(this).text() + "." + $(this).attr("data-ext")
+   showInfo(getOpenFilePath(fullName))
 
 })
-
-$("#folders, #files").on("blur", "div.file", function (e) {
-   $(".aside-view").html("")
-})
-
 
 function showInfo(path) {
    $.ajax({
@@ -235,8 +231,6 @@ function createFolder(path) {
       success: function (data) {
          data = JSON.parse(data)
          if (data.ok) {
-            $("#new-folder").parent().parent().remove()
-            sendRequestFiles()
             updateMenu(getOpenFilePath())
          } else {
             $("#new-folder").parent().addClass("error")
@@ -266,17 +260,56 @@ function updateMenu(path = "root/") {
 /* --- CONTEXT MENU --- */
 
 var contextMenu = CtxMenu(".file");
-contextMenu.addItem("Change Name  ", function(e){
-   // console.log(e);
+contextMenu.addItem("Change Name  ", function (e) {
    editName(e)
- }, "https://image.flaticon.com/icons/svg/598/598234.svg");
+}, "https://image.flaticon.com/icons/svg/598/598234.svg");
 
- contextMenu.addSeperator();
+contextMenu.addSeperator();
 
-contextMenu.addItem("Delete", function(){
-   console.log("uno");
+contextMenu.addItem("Delete", function () {
+
 }, "https://image.flaticon.com/icons/svg/60/60761.svg");
 
-function editName(elem){
-   console.log(elem.innerText);
+
+/* --- CHANGE NAME --- */
+
+function editName(elem) {
+   let icon = $(elem).find("i")
+   let name = $(elem).text()
+   let extension = $(elem).attr("data-ext") == "folder" ? "" : "." + $(elem).attr("data-ext")
+   let fullName = (name+extension)
+   $(elem).first().text("")
+   $(elem).append($(`<p></p>`).append(icon)
+   .append($('<input type="text" id="rename-folder" class="new-folder">')).append(" " + extension))
+   $("#rename-folder").focus()
+   $("#rename-folder").keyup(function (e) {
+      e.preventDefault()
+      if (e.keyCode == 13) {
+         let newName = $("#rename-folder").val().trim() + extension
+         changeName(getOpenFilePath(), fullName, newName)
+      }
+   })
+   $("#rename-folder").blur(function () {
+      $(this).parent().parent().html("").append($(`<p></p>`).append(icon).append(name))
+   })
+}
+
+function changeName(path, oldName, newName) {
+   $.ajax({
+      type: "POST",
+      url: "change-name.php",
+      data: {
+         "path": path,
+         "old-name": oldName,
+         "new-name": newName
+      },
+      success: function (data) {
+         data = JSON.parse(data)
+         if (data.ok) {
+            updateMenu(getOpenFilePath())
+         } else {
+            $("#rename-folder").parent().addClass("error")
+         }
+      }
+   })
 }
