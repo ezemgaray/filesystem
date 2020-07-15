@@ -331,3 +331,10 @@ a.a-trash:hover i{
    height: 1.5em;
    padding: 3px 5px;
 }
+.error input{
+   outline: red;
+   border-color: red;
+}
+.error .fa{
+   color: red;
+}

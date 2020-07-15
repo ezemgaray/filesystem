@@ -167,10 +167,6 @@ $("#add-ff").on("click", "a.add-btn", function (e) {
       e.preventDefault()
       if (e.keyCode == 13) {
          createFolder(getOpenFilePath($("#new-folder").val().trim()))
-         // var rx = /[ <>:"\/\\|?*\x00-\x1F]|^(?:aux|con|clock\$|nul|prn|com[1-9]|lpt[1-9])$/i;
-         // if (rx.test($("#new-folder").val())) {
-         //    alert("Error: Input contains invalid characters!");
-         // }
       }
    })
    $("#new-folder").blur(function () {
@@ -196,16 +192,17 @@ function createFolder(path){
       type: "POST",
       url: "create-folder.php",
       data: {
-         "path": path
+         "path": path,
+         "name": $("#new-folder").val().trim()
       },
       success: function (data) {
-         data = JSON.parent(data)
+         data = JSON.parse(data)
          if(data.ok){
+            $("#new-folder").parent().parent().remove()
             $("#folders").append(data.ok)
          }else{
-            console.log("nada");
+            $("#new-folder").parent().addClass("error")
          }
-         $(".aside-view").html("").append(data)
       }
    })
 }
