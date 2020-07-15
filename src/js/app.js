@@ -262,3 +262,21 @@ function updateMenu(path = "root/") {
       }
    })
 }
+
+/* --- CONTEXT MENU --- */
+
+var contextMenu = CtxMenu(".file");
+contextMenu.addItem("Change Name  ", function(e){
+   // console.log(e);
+   editName(e)
+ }, "https://image.flaticon.com/icons/svg/598/598234.svg");
+
+ contextMenu.addSeperator();
+
+contextMenu.addItem("Delete", function(){
+   console.log("uno");
+}, "https://image.flaticon.com/icons/svg/60/60761.svg");
+
+function editName(elem){
+   console.log(elem.innerText);
+}
