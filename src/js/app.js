@@ -84,7 +84,9 @@ function sendRequestFiles() {
                printFolder(data.folders)
             if (!data.folders && !data.files)
                printFolder()
-            window.history.pushState({page: './index.php?root=' + uri}, uri, './index.php?root=' + uri);
+            window.history.pushState({
+               page: './index.php?root=' + uri
+            }, uri, './index.php?root=' + uri);
          }
       })
    } else {
@@ -102,9 +104,14 @@ function printBreadcrumb(uri) {
       let arrUri = uri.split("/")
       arrUri.pop()
       let link = ""
+      // let len = arrUri.length
       $(arrUri).each(function (key, value) {
          link += value + "/"
-         arrUri[key] = `<a href="?root=${link}">${value}</a> / `
+         if ((key + 1) < arrUri.length)
+            arrUri[key] = `<a href="?root=${link}">${value}</a> / `
+         else
+            arrUri[key] = `<span>${value}</span> / `
+
       })
       $("#breadcrumb").html(arrUri.join(""))
       newFileFolderButtons(uri)
