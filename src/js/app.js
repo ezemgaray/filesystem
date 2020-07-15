@@ -100,11 +100,9 @@ function sendRequestFiles() {
  */
 function printBreadcrumb(uri) {
    if (uri) {
-      // $("#breadcrumb").text(uri.split("/").join(" / "))
       let arrUri = uri.split("/")
       arrUri.pop()
       let link = ""
-      // let len = arrUri.length
       $(arrUri).each(function (key, value) {
          link += value + "/"
          if ((key + 1) < arrUri.length)
