@@ -108,7 +108,7 @@ function printFile(data) {
    $("#files").append(data)
 }
 
-$("#folders").on("dblclick", "div", function (e) {
+$("#folders").on("dblclick", "div.file", function (e) {
    $opened = $(".open").last().parent()
    $name = $(this).children().first().text().trim()
    $($opened.find('[data-name="' + $name + '"]')).click()
@@ -126,13 +126,18 @@ function getOpenFilePath(forInfo = ""){
    $(".open").each(function () {
       uri += $(this).text() + "/"
    })
-   uri += forInfo
+   uri += forInfo.trim()
+   console.log(uri);
    return uri
 }
 
 /* --- SHOW INFO --- */
-$("#folders, #files").on("click", "div", function (e) {
-   showInfo(getOpenFilePath($(this).text()))
+$("#folders, #files").on("click", "div.file", function (e) {
+   showInfo(getOpenFilePath(($(this).text())))
+})
+
+$("#folders, #files").on("blur", "div.file", function (e) {
+   $(".aside-view").html("")
 })
 
 
@@ -144,8 +149,7 @@ function showInfo(path){
          "path": path
       },
       success: function (data) {
-         console.log(data);
-         $(".aside-view").html("").append(data)
+         $(".aside-view").append(data)
       }
    })
 }

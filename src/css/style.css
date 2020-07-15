@@ -106,20 +106,19 @@ body{
 
 .sidebar-wrapper .sidebar-menu ul li a {
    display: inline-block;
-   /* width: 100%; */
    text-decoration: none;
    position: relative;
    padding: 0px 30px 0px 20px;
    font-size: 13px;
+   width: 100%;
 }
 
 .sidebar-wrapper .sidebar-menu ul li a:hover {
    background-color: #f3f1ff;
-
 }
 
       
-.sidebar-wrapper .sidebar-menu ul li {
+.sidebar-wrapper .sidebar-menu ul li{
    width: 100%;
    min-width: 200px;
    max-width: 250px;
@@ -274,7 +273,7 @@ body{
 /*---------------------- ASIDE VIEW -------------------------*/
 
 .aside-view {
-   padding: 20px 10px;
+   padding: 10px 10px;
    min-width: 250px;
 }
 
@@ -306,4 +305,10 @@ a.a-trash i{
 }
 a.a-trash:hover i{
    color: #000;
+}
+
+/*---------------------- FILE/FOLDER INFO -------------------------*/
+.info-icon i{
+   font-size: 34px;
+   margin-right: 10px;
 }
