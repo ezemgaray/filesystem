@@ -26,6 +26,7 @@ require("functions.php");
    </div>
    <main class="page-content page-wrapper chiller-theme d-flex">
       <?php
+      
       include("view/nav.php");
       include("view/main.php");
       include("view/aside.php");

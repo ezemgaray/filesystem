@@ -1,4 +1,11 @@
-updateMenu()
+// console.log(window.location.search);
+// console.log(param.get('root'));
+if (window.location.search) {
+   let param = new URLSearchParams(window.location.search)
+   updateMenu(param.get("root"))
+} else {
+   updateMenu()
+}
 
 // Stop default acction of <a> without link
 $('main').on("click", 'a[href="#"]', function (e) {
@@ -80,6 +87,7 @@ function sendRequestFiles() {
                printFolder(data.folders)
             if (!data.folders && !data.files)
                printFolder()
+            window.history.pushState('index', uri, './index.php?root=' + uri);
          }
       })
    } else {
@@ -102,7 +110,7 @@ function printBreadcrumb(uri) {
       $("#breadcrumb").html(arrUri.join(""))
       newFileFolderButtons(uri)
 
-   } else{
+   } else {
       $("#breadcrumb").text(" ")
       newFileFolderButtons()
    }
