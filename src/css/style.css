@@ -277,14 +277,14 @@ body{
    min-width: 250px;
 }
 
-.fa.button{
-   font-size: 20px;
+a>.fa.button{
+   font-size: 24px;
    cursor: pointer;
 }
+a:first-child>.fa.button{
+   font-size: 26px;
+}
 .fa.button:hover{
-   font-size: 20px;
-   cursor: pointer;
-   color: rgb(99, 199, 99);
 }
 
 a.a-trash{
@@ -311,4 +311,23 @@ a.a-trash:hover i{
 .info-icon i{
    font-size: 34px;
    margin-right: 10px;
+}
+
+/*---------------------- ADD BTN -------------------------*/
+.add-btn:link, 
+.add-btn:hover, 
+.add-btn:active, 
+.add-btn:visited{
+   text-decoration: none;
+}
+.add-btn:hover{
+   color: rgb(99, 199, 99);
+   
+}
+
+/*---------------------- NEW FOLDER FORM -------------------------*/
+.new-folder{
+   display: inline-block;
+   height: 1.5em;
+   padding: 3px 5px;
 }

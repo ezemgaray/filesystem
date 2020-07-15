@@ -40,6 +40,7 @@ $(".sidebar-menu a").click(function () {
          }
       })
    }
+   newFileFolderNuttons()
    $(this).toggleClass("open")
    $(this).children().first().toggleClass("fa-folder fa-folder-open")
    sendRequestFiles()
@@ -121,13 +122,12 @@ $("#folders").on("dblclick", "div.file", function (e) {
  * the clicked item in the central view
  * @param {*String} forInfo  -> name of folder or file clicked element.text()
  */
-function getOpenFilePath(forInfo = ""){
+function getOpenFilePath(forInfo = "") {
    let uri = ""
    $(".open").each(function () {
       uri += $(this).text() + "/"
    })
    uri += forInfo.trim()
-   console.log(uri);
    return uri
 }
 
@@ -141,7 +141,7 @@ $("#folders, #files").on("blur", "div.file", function (e) {
 })
 
 
-function showInfo(path){
+function showInfo(path) {
    $.ajax({
       type: "POST",
       url: "show-info.php",
@@ -149,7 +149,63 @@ function showInfo(path){
          "path": path
       },
       success: function (data) {
-         $(".aside-view").append(data)
+         $(".aside-view").html("").append(data)
+      }
+   })
+}
+
+/* --- ADD FOLDER --- */
+$("#add-ff").on("click", "a.add-btn", function (e) {
+   $("#folders")
+      .append($('<div class="border p-2 m-2 rounded"></div>')
+         .append($('<p> <i class="fa fa-folder mr-2"></i></p>')
+            .append($('<input type="text" id="new-folder" class="new-folder">'))
+         )
+      )
+   $("#new-folder").focus()
+   $("#new-folder").keyup(function (e) {
+      e.preventDefault()
+      if (e.keyCode == 13) {
+         createFolder(getOpenFilePath($("#new-folder").val().trim()))
+         // var rx = /[ <>:"\/\\|?*\x00-\x1F]|^(?:aux|con|clock\$|nul|prn|com[1-9]|lpt[1-9])$/i;
+         // if (rx.test($("#new-folder").val())) {
+         //    alert("Error: Input contains invalid characters!");
+         // }
+      }
+   })
+   $("#new-folder").blur(function () {
+      $(this).parent().parent().remove()
+   })
+})
+
+function newFileFolderNuttons() {
+   if (!$("#add-ff").is(':empty')) {
+      $("#add-ff").html(`
+         <a href="#" class="m-2 add-btn folder">
+            <i class="fa fa-folder-plus button"></i>
+         </a>
+         <a href="#" class="mb-2 add-btn">
+            <i class="fa fa-file-medical button"></i>
+         </a>
+      `)
+   }
+}
+
+function createFolder(path){
+   $.ajax({
+      type: "POST",
+      url: "create-folder.php",
+      data: {
+         "path": path
+      },
+      success: function (data) {
+         data = JSON.parent(data)
+         if(data.ok){
+            $("#folders").append(data.ok)
+         }else{
+            console.log("nada");
+         }
+         $(".aside-view").html("").append(data)
       }
    })
 }
