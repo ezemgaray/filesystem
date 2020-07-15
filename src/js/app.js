@@ -113,6 +113,7 @@ $("#folders").on("dblclick", "div.file", function (e) {
    $opened = $(".open").last().parent()
    $name = $(this).children().first().text().trim()
    $($opened.find('[data-name="' + $name + '"]')).click()
+   
 })
 
 /**
@@ -134,6 +135,7 @@ function getOpenFilePath(forInfo = "") {
 /* --- SHOW INFO --- */
 $("#folders, #files").on("click", "div.file", function (e) {
    showInfo(getOpenFilePath(($(this).text())))
+
 })
 
 $("#folders, #files").on("blur", "div.file", function (e) {
@@ -187,7 +189,7 @@ function newFileFolderNuttons() {
    }
 }
 
-function createFolder(path){
+function createFolder(path) {
    $.ajax({
       type: "POST",
       url: "create-folder.php",
@@ -197,12 +199,34 @@ function createFolder(path){
       },
       success: function (data) {
          data = JSON.parse(data)
-         if(data.ok){
+         if (data.ok) {
             $("#new-folder").parent().parent().remove()
             $("#folders").append(data.ok)
-         }else{
+
+            // updateMenu()
+         } else {
             $("#new-folder").parent().addClass("error")
          }
       }
    })
 }
+
+// function updateMenu() {
+//       $.ajax({
+//          type: "POST",
+//          url: "view/nav.php",
+//          data: {
+//             "update": "menu"
+//          },
+//          success: function (data) {
+//             // $("nav").remove()
+//             // $("main").append(data)
+//             // $(data).ready(function(){
+//                // $("nav").prepend(data)
+
+//             // });
+//                $("nav").load("view/nav.php nav");
+
+//          }
+//       })
+// }

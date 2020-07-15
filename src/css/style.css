@@ -284,8 +284,6 @@ a>.fa.button{
 a:first-child>.fa.button{
    font-size: 26px;
 }
-.fa.button:hover{
-}
 
 a.a-trash{
    padding: 5px 10px;

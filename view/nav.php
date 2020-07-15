@@ -1,3 +1,8 @@
+<?php
+if (isset($_POST["update"])) {
+   require("../functions.php");
+}
+?>
 <nav id="sidebar" class="sidebar-wrapper pl-2 pr-2 w-25">
    <div class="sidebar-content m-auto">
       <div class="sidebar-header">
