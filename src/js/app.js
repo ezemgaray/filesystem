@@ -4,7 +4,6 @@ if (window.location.search) {
 } else {
    updateMenu()
 }
-
 // Stop default acction of <a> without link
 $('main').on("click", 'a[href="#"]', function (e) {
    e.preventDefault()
@@ -194,10 +193,10 @@ function showInfo(path) {
 function newFileFolderButtons(uri) {
    if (!$("#add-ff").is(':empty') && uri) {
       $("#add-ff").html(`
-         <a href="#" class="m-1 add-btn folder">
+         <a href="#" class="m-1 add-btn folder" data-toggle="tooltip" data-placement="top" title="Add Folder">
             <i class="fa fa-folder-plus button"></i>
          </a>
-         <a href="#" class="mb-1 add-btn">
+         <a href="#" class="mb-1 add-btn" data-toggle="tooltip" data-placement="top" title="Add File">
             <i class="fa fa-file-medical button"></i>
          </a>
       `)
@@ -216,10 +215,11 @@ $("#add-ff").on("click", "a.add-btn", function (e) {
    $("#folders")
       .append($('<div class="border p-2 m-2 rounded"></div>')
          .append($('<p> <i class="fa fa-folder mr-2"></i></p>')
-            .append($('<input type="text" id="new-folder" class="new-folder">'))
+            .append($('<input type="text" id="new-folder" class="new-folder" data-toggle="tooltip" data-placement="top" title="Enter to save. Click outside the input to cancel">'))
          )
       )
    $("#new-folder").focus()
+   $('#new-folder').tooltip('show')
    $("#new-folder").keyup(function (e) {
       e.preventDefault()
       if (e.keyCode == 13) {
@@ -307,8 +307,9 @@ function editName(elem) {
    let fullName = (name+extension).trim()
    $(elem).first().text("")
    $(elem).append($(`<p></p>`).append(icon)
-   .append($('<input type="text" id="rename-folder" class="new-folder">')).append(" " + extension))
+   .append($('<input type="text" id="rename-folder" class="new-folder" data-toggle="tooltip" data-placement="top" title="Enter to save. Click outside the input to cancel">')).append(" " + extension))
    $("#rename-folder").focus()
+   $('#rename-folder').tooltip('show')
    $("#rename-folder").keyup(function (e) {
       e.preventDefault()
       if (e.keyCode == 13) {
@@ -373,3 +374,7 @@ function deleteFileFolder(elem){
       }
    })
 }
+// $('[data-toggle="tooltip"]').tooltip()
+$("body").on( "mouseenter mouseleave", '[data-toggle="tooltip"]', function(){
+   $(this).tooltip({'placement': 'top'})
+} );
