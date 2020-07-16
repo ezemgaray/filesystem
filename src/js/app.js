@@ -274,7 +274,7 @@ function addFile(path) {
       processData: false,
       data: data,
       success: function (data) {
-         data = JSON.parse(data)
+         console.log(data);
          if (data.ok) {
             console.log(data);
          } else {
