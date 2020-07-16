@@ -266,8 +266,10 @@ contextMenu.addItem("Change Name  ", function (e) {
 
 contextMenu.addSeperator();
 
-contextMenu.addItem("Delete", function () {
-
+contextMenu.addItem("Delete", function (e) {
+   if(confirm("Are you sure? Delete " + $(e).text() + ($(e).attr("data-ext") == "folder" ? "/" : "." + $(e).attr("data-ext")))){
+      deleteFileFolder(e)
+   }
 }, "https://image.flaticon.com/icons/svg/60/60761.svg");
 
 
@@ -295,9 +297,6 @@ function editName(elem) {
 }
 
 function changeName(path, oldName, newName) {
-   console.log(path);
-   console.log(oldName);
-   console.log(newName);
    $.ajax({
       type: "POST",
       url: "change-name.php",
@@ -305,6 +304,34 @@ function changeName(path, oldName, newName) {
          "path": path,
          "old-name": oldName,
          "new-name": newName
+      },
+      success: function (data) {
+         console.log(data);
+         data = JSON.parse(data)
+         if (data.ok) {
+            updateMenu(getOpenFilePath())
+         } else {
+            $("#rename-folder").parent().addClass("error")
+         }
+      }
+   })
+}
+
+/* --- DELETE FILE OR FOLDER --- */
+
+function deleteFileFolder(elem){
+   let name = $(elem).text()
+   let extension = $(elem).attr("data-ext") == "folder" ? "" : "." + $(elem).attr("data-ext")
+   let fullName = (name+extension).trim()
+   let path = getOpenFilePath();
+   let newPath = "trash" + fullName 
+   $.ajax({
+      type: "POST",
+      url: "move-trash.php",
+      data: {
+         "path": path,
+         "new-path": newPath,
+         "name": fullName
       },
       success: function (data) {
          console.log(data);
