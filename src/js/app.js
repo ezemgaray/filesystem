@@ -204,6 +204,7 @@ function newFileFolderButtons(uri) {
       $('.add-btn').tooltip()
    } else {
       $("#add-ff").html(" ")
+      $("#folders").html(`<div class="alert alert-warning m-2 p-2" role="alert">Sorry, you don't have access to other directories  <i class="fa fa-user-lock"></i></div>`)
    }
 }
 
