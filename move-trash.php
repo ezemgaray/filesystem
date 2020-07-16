@@ -5,17 +5,9 @@ require("functions.php");
 if (isset($_POST["path"])) {
    $path = $_POST["path"];
 
-   // Generate ID
-   $ref = getTrashData();
-   if ($ref) {
-      $newId = end($ref)["id"] + 1;
-   } else {
-      $newId = 1;
-   }
-
    //Create object to save in json
    $newItem = [];
-   $newItem += ["id" => $newId];
+   $newItem += ["id" => time()];
    $newItem += ["name" => $_POST["name"]];
    $newItem += ["full_name" => $_POST["full-name"]];
    $newItem += ["extension" => !$_POST["extension"] ? "/" : $_POST["extension"]];
@@ -27,7 +19,7 @@ if (isset($_POST["path"])) {
 
    // Move file/folder to trash
    $old = $path . $_POST["full-name"];
-   $new = "trash/" . $newId . $_POST["extension"];
+   $new = "trash/" . $newItem["id"] . $_POST["extension"];
    if(!rename($old, $new)){
       //if it cannot be moved with rename, it is moved with copy
       if (copy ($old,$new)) {

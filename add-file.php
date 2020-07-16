@@ -6,12 +6,22 @@ if (isset($_POST["path"]) && isset($_FILES["file"])) {
    $fileContent = file_get_contents($_FILES['file']['tmp_name']);
 
    if(file_exists($_POST["path"].$fileName)){
-      echo json_encode(["error" => "a file named $fileName already exists! Try renaming the file."]);
+      echo json_encode([
+         "type" => "danger",
+         "thumb" => "thumbs-down",
+         "subject" => "Upload File",
+         "message" => "A file named $fileName already exists! Try renaming the file."
+         ]);
       die();
    }
 
    if ($fileError == UPLOAD_ERR_OK && @move_uploaded_file($_FILES['file']['tmp_name'], $_POST["path"].$fileName)) {
-      echo json_encode(["ok" => "file $fileName uploaded successfully!!!"]);
+      echo json_encode([
+         "type" => "success",
+         "thumb" => "thumbs-up",
+         "subject" => "Upload File",
+         "message" => "File $fileName uploaded successfully!!!"
+         ]);
    } else {
       switch ($fileError) {
          case UPLOAD_ERR_INI_SIZE:
@@ -39,6 +49,11 @@ if (isset($_POST["path"]) && isset($_FILES["file"])) {
             $message = 'Error: file upload not completed.';
             break;
       }
-      echo json_encode(['error' => $message]);
+      echo json_encode([
+         "type" => "danger",
+         "thumb" => "thumbs-down",
+         "subject" => "Upload File",
+         'message' => $message
+         ]);
    }
 }

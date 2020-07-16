@@ -349,3 +349,16 @@ label.add-btn{
    width: 100%;
    cursor: pointer;
 }
+
+
+/*---------------------- TOAST -------------------------*/
+.toast-top{
+   position: absolute;
+   bottom: 15px;
+   right: 15px;
+   padding: 10px;
+}
+.toast{
+   width: 400px;
+   height: auto;
+}

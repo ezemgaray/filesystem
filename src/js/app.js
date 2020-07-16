@@ -274,15 +274,39 @@ function addFile(path) {
       processData: false,
       data: data,
       success: function (data) {
-         console.log(data);
-         if (data.ok) {
-            console.log(data);
+         data = JSON.parse(data)
+         if (data.type == "success") {
+            updateMenu(getOpenFilePath())
+            showToast(data)
          } else {
-            console.log(data);
+            showToast(data)
          }
       }
    })
 }
+
+/* --- SHOW/REMOVE TOAST --- */
+
+function showToast(data){
+   console.log(data);
+   let toast = `<div class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-delay="10000">
+      <div class="toast-header">
+      <i class="rounded mr-2 fa fa-${data.thumb} text-${data.type}" ></i>
+      <strong class="mr-auto text-${data.type}">  ${data.subject} </strong>
+      <button type="button" class="close" data-dismiss="toast" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+      </button></div>
+      <div class="toast-body">
+      <b>${data.message}</b>
+   </div></div> `
+   $(".toast-container").append(toast);
+   $('.toast').toast('show');
+   $('.toast').on('hidden.bs.toast', function () {
+      $(this).remove()
+   })
+}
+
+
 /* --- UPDATE MENU --- */
 
 /**
@@ -364,7 +388,6 @@ function changeName(path, oldName, newName) {
          "new-name": newName
       },
       success: function (data) {
-         console.log(data);
          data = JSON.parse(data)
          if (data.ok) {
             updateMenu(getOpenFilePath())
@@ -396,7 +419,6 @@ function deleteFileFolder(elem) {
          "extension": extension
       },
       success: function (data) {
-         console.log(data);
          data = JSON.parse(data)
          if (data.ok) {
             updateMenu(getOpenFilePath())
@@ -406,7 +428,8 @@ function deleteFileFolder(elem) {
       }
    })
 }
+
 // $('[data-toggle="tooltip"]').tooltip()
-// $("body").on( "mouseenter mouseleave", '[data-toggle="tooltip"]', function(){
-//    $(this).tooltip({'placement': 'top'})
-// } );
+$("body").on( "mouseenter mouseleave", '[data-toggle="tooltip"]', function(){
+   $(this).tooltip()
+} );
