@@ -276,7 +276,8 @@ body{
    min-width: 250px;
 }
 
-a>.fa.button{
+a>.fa.button,
+label>.fa.button{
    font-size: 24px;
    cursor: pointer;
 }
@@ -319,6 +320,9 @@ a.a-trash:hover i{
 .add-btn:active, 
 .add-btn:visited{
    text-decoration: none;
+}
+label.add-btn{
+   color: #007bff;
 }
 .add-btn:hover{
    color: rgb(99, 199, 99);

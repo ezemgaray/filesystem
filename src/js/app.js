@@ -193,13 +193,15 @@ function showInfo(path) {
 function newFileFolderButtons(uri) {
    if (!$("#add-ff").is(':empty') && uri) {
       $("#add-ff").html(`
-         <a href="#" class="m-1 add-btn folder" data-toggle="tooltip" data-placement="top" title="Add Folder">
+         <a href="#" class="m-1 add-btn add-folder" data-toggle="tooltip" data-placement="top" title="Add Folder">
             <i class="fa fa-folder-plus button"></i>
          </a>
-         <a href="#" class="mb-1 add-btn" data-toggle="tooltip" data-placement="top" title="Add File">
+         <label for="add-new-file" class="mb-1 add-btn add-file" data-toggle="tooltip" data-placement="top" title="Add File">
             <i class="fa fa-file-medical button"></i>
-         </a>
+            <input type="file" name="add-new-file" id="add-new-file" class="d-none">
+         </label>
       `)
+      $('.add-btn').tooltip()
    } else {
       $("#add-ff").html(" ")
    }
@@ -211,7 +213,7 @@ function newFileFolderButtons(uri) {
  * generates the input and event to add folder. 
  * if it loses focus it is canceled
  */
-$("#add-ff").on("click", "a.add-btn", function (e) {
+$("#add-ff").on("click", "a.add-btn.add-folder", function (e) {
    $("#folders")
       .append($('<div class="border p-2 m-2 rounded"></div>')
          .append($('<p> <i class="fa fa-folder mr-2"></i></p>')
@@ -230,7 +232,6 @@ $("#add-ff").on("click", "a.add-btn", function (e) {
       $(this).parent().parent().remove()
    })
 })
-
 
 function createFolder(path) {
    $.ajax({
@@ -251,6 +252,37 @@ function createFolder(path) {
    })
 }
 
+/* --- ADD FILE --- */
+
+/**
+ * generates the input and event to add folder. 
+ * if it loses focus it is canceled
+ */
+$("#add-ff").on("change", "#add-new-file", function (e) {
+   addFile(getOpenFilePath())
+})
+
+function addFile(path) {
+   let data = new FormData()
+   data.append('file', $('#add-new-file')[0].files[0]);
+   data.append("path", path)
+   $.ajax({
+      type: "POST",
+      url: "add-file.php",
+      cache: false,
+      contentType: false,
+      processData: false,
+      data: data,
+      success: function (data) {
+         data = JSON.parse(data)
+         if (data.ok) {
+            console.log(data);
+         } else {
+            console.log(data);
+         }
+      }
+   })
+}
 /* --- UPDATE MENU --- */
 
 /**
@@ -288,7 +320,7 @@ contextMenu.addItem("Change Name  ", function (e) {
 contextMenu.addSeperator();
 
 contextMenu.addItem("Delete", function (e) {
-   if(confirm("Are you sure? Delete " + $(e).text() + ($(e).attr("data-ext") == "folder" ? "/" : "." + $(e).attr("data-ext")))){
+   if (confirm("Are you sure? Delete " + $(e).text() + ($(e).attr("data-ext") == "folder" ? "/" : "." + $(e).attr("data-ext")))) {
       deleteFileFolder(e)
    }
 }, "https://image.flaticon.com/icons/svg/60/60761.svg");
@@ -304,10 +336,10 @@ function editName(elem) {
    let icon = $(elem).find("i")
    let name = $(elem).text()
    let extension = $(elem).attr("data-ext") == "folder" ? "" : "." + $(elem).attr("data-ext")
-   let fullName = (name+extension).trim()
+   let fullName = (name + extension).trim()
    $(elem).first().text("")
    $(elem).append($(`<p></p>`).append(icon)
-   .append($('<input type="text" id="rename-folder" class="new-folder" data-toggle="tooltip" data-placement="top" title="Enter to save. Click outside the input to cancel">')).append(" " + extension))
+      .append($('<input type="text" id="rename-folder" class="new-folder" data-toggle="tooltip" data-placement="top" title="Enter to save. Click outside the input to cancel">')).append(" " + extension))
    $("#rename-folder").focus()
    $('#rename-folder').tooltip('show')
    $("#rename-folder").keyup(function (e) {
@@ -349,10 +381,10 @@ function changeName(path, oldName, newName) {
  * request confirmation and if accepted, make the request to move to trash
  * @param {*HTML Element} elem 
  */
-function deleteFileFolder(elem){
+function deleteFileFolder(elem) {
    let name = $(elem).text().trim()
    let extension = $(elem).attr("data-ext") == "folder" ? "" : "." + $(elem).attr("data-ext")
-   let fullName = (name+extension).trim()
+   let fullName = (name + extension).trim()
    let path = getOpenFilePath();
    $.ajax({
       type: "POST",
@@ -375,6 +407,6 @@ function deleteFileFolder(elem){
    })
 }
 // $('[data-toggle="tooltip"]').tooltip()
-$("body").on( "mouseenter mouseleave", '[data-toggle="tooltip"]', function(){
-   $(this).tooltip({'placement': 'top'})
-} );
+// $("body").on( "mouseenter mouseleave", '[data-toggle="tooltip"]', function(){
+//    $(this).tooltip({'placement': 'top'})
+// } );
