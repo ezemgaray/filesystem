@@ -229,6 +229,7 @@ $("#add-ff").on("click", "a.add-btn.add-folder", function (e) {
       }
    })
    $("#new-folder").blur(function () {
+      $('.tooltip').tooltip('hide')
       $(this).parent().parent().remove()
    })
 })
@@ -276,6 +277,7 @@ function addFile(path) {
       success: function (data) {
          data = JSON.parse(data)
          if (data.type == "success") {
+            $('.add-btn').tooltip()
             updateMenu(getOpenFilePath())
             showToast(data)
          } else {
@@ -287,8 +289,7 @@ function addFile(path) {
 
 /* --- SHOW/REMOVE TOAST --- */
 
-function showToast(data){
-   console.log(data);
+function showToast(data) {
    let toast = `<div class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-delay="10000">
       <div class="toast-header">
       <i class="rounded mr-2 fa fa-${data.thumb} text-${data.type}" ></i>
@@ -374,6 +375,7 @@ function editName(elem) {
       }
    })
    $("#rename-folder").blur(function () {
+      $('.tooltip').tooltip('hide')
       $(this).parent().parent().html("").append($(`<p></p>`).append(icon).append(name))
    })
 }
@@ -389,10 +391,16 @@ function changeName(path, oldName, newName) {
       },
       success: function (data) {
          data = JSON.parse(data)
-         if (data.ok) {
+         if (data.type == "success") {
+            $('.tooltip').tooltip('hide')
             updateMenu(getOpenFilePath())
+            showToast(data)
          } else {
             $("#rename-folder").parent().addClass("error")
+            $('#rename-folder').tooltip('hide')
+               .attr('data-original-title', data.message).tooltip('show')
+            console.log($("#rename-folder").attr("title"));
+            showToast(data)
          }
       }
    })
@@ -430,6 +438,6 @@ function deleteFileFolder(elem) {
 }
 
 // $('[data-toggle="tooltip"]').tooltip()
-$("body").on( "mouseenter mouseleave", '[data-toggle="tooltip"]', function(){
+$("body").on("mouseenter mouseleave", '[data-toggle="tooltip"]', function () {
    $(this).tooltip()
-} );
+});
