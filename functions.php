@@ -63,7 +63,6 @@ function getSize($path)
    return $bytes;
 }
 
-
 /**
  * Return trash data
  */

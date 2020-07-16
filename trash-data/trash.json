@@ -1,6 +1,13 @@
 [
    {
       "id": 1,
-      "name": ""
+      "name": "",
+      "extension": "",
+      "created": "",
+      "modified": "",
+      "trash": "",
+      "full_name": "",
+      "old_path": "",
+      "old_parent_path": ""
    }
 ]
