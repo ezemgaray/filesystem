@@ -35,5 +35,6 @@ function printMenu($target, &$html = ""){
             . '</li>';
       }
    }
-   return $html;
+   $count = (count(scandir("trash/")) - 2);
+   return json_encode(["menu" => $html, "trashCount" => $count]);
 }

@@ -186,7 +186,7 @@ body{
 
 ::-webkit-scrollbar {
    width: 5px;
-   height: 7px;
+   height: 5px;
 }
 
 ::-webkit-scrollbar-button {
@@ -260,12 +260,13 @@ body{
    height: 2em;
    width: 80%;
    min-width: 300px;
-   padding: 0 10px;
+   padding: 5px 10px 0;
    margin: 0;
    margin-right: 15px;
    word-wrap: normal;
    white-space: nowrap;
-   overflow-x: scroll;
+   overflow-x: auto;
+   overflow-y: hidden;
    background-color: #e9ecef;
 }
 
@@ -286,9 +287,14 @@ a:first-child>.fa.button{
 }
 
 a.a-trash{
+   position: sticky;
+   bottom: 0;
+   background-color: #fff;
    padding: 5px 10px;
-   margin: 10px;
+   margin: 20px 15px 10px;
+   font-weight: bold;
 }
+
 a.a-trash:hover{
    background-color: rgb(248, 153, 153);
    border-radius: 5px;
@@ -303,6 +309,23 @@ a.a-trash i{
 }
 a.a-trash:hover i{
    color: #000;
+}
+
+a.a-trash>.count-trash,
+a.a-trash>.count-trash:hover,
+a.a-trash:hover>.count-trash{
+   position: absolute;
+   top: -12px;
+   right: -15px;
+   font-size: 12px;
+   padding: 2px 5px;
+   background-color: #007bff;
+   color: #fff;
+   border-radius: 3px;
+   -webkit-border-radius: 3px;
+   -moz-border-radius: 3px;
+   -ms-border-radius: 3px;
+   -o-border-radius: 3px;
 }
 
 /*---------------------- FILE/FOLDER INFO -------------------------*/

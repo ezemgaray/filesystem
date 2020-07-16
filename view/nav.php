@@ -15,6 +15,7 @@ if (isset($_POST["update"])) {
       </div>
       <!-- sidebar-menu  -->
       <a class="float-right a-trash" href="#">
+         <i class="count-trash" id="trash-count"></i>
          <i class="fa fa-trash"></i>
          Trash
       </a>

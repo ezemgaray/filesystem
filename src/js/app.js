@@ -144,7 +144,7 @@ function printFile(data) {
 $("#folders").on("dblclick", "div.file", function (e) {
    $opened = $(".open").last().parent()
    $name = $(this).children().first().text().trim()
-   $($opened.find('[data-name="' + $name + '"]')).click()
+   $($opened.find('[data-name="' + $name + '"]'))[0].click()
 
 })
 
@@ -327,14 +327,15 @@ function updateMenu(path = "root/") {
          "from": "root/"
       },
       success: function (data) {
-         $("#menu-list").html("").append(data)
+         data = JSON.parse(data)
+         $("#menu-list").html("").append(data.menu)
          path = path.split("/")
          path.pop()
          $(path).each(function (key, name) {
-            $($("#menu-list").find('[data-name="' + name + '"]')).click()
+            $($("#menu-list").find('[data-name="' + name + '"]'))[0].click()
          })
-         // $('[data-toggle="tooltip"]').tooltip("hide")
          $('.tooltip').tooltip("hide")
+         $('#trash-count').text(data.trashCount)
       }
    })
 }
@@ -441,6 +442,7 @@ function moveToTrash(elem) {
       }
    })
 }
+
 
 // $('[data-toggle="tooltip"]').tooltip()
 $("body").on("mouseenter mouseleave", '[data-toggle="tooltip"]', function () {
