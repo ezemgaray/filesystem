@@ -244,10 +244,14 @@ function createFolder(path) {
       },
       success: function (data) {
          data = JSON.parse(data)
-         if (data.ok) {
+         if (data.type == "success") {
             updateMenu(getOpenFilePath())
+            showToast(data)
          } else {
             $("#new-folder").parent().addClass("error")
+            $('#new-folder').tooltip('hide')
+               .attr('data-original-title', data.message).tooltip('show')
+            showToast(data)
          }
       }
    })
@@ -277,7 +281,6 @@ function addFile(path) {
       success: function (data) {
          data = JSON.parse(data)
          if (data.type == "success") {
-            $('.add-btn').tooltip()
             updateMenu(getOpenFilePath())
             showToast(data)
          } else {
@@ -329,6 +332,7 @@ function updateMenu(path = "root/") {
          $(path).each(function (key, name) {
             $($("#menu-list").find('[data-name="' + name + '"]')).click()
          })
+         $('[data-toggle="tooltip"]').tooltip("hide")
       }
    })
 }
@@ -392,14 +396,12 @@ function changeName(path, oldName, newName) {
       success: function (data) {
          data = JSON.parse(data)
          if (data.type == "success") {
-            $('.tooltip').tooltip('hide')
             updateMenu(getOpenFilePath())
             showToast(data)
          } else {
             $("#rename-folder").parent().addClass("error")
             $('#rename-folder').tooltip('hide')
                .attr('data-original-title', data.message).tooltip('show')
-            console.log($("#rename-folder").attr("title"));
             showToast(data)
          }
       }
