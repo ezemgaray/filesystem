@@ -74,6 +74,21 @@ function getTrashData()
 }
 
 /**
+ * Find Object into trash.json
+ * @param [*String or Numbre] -> id
+ */
+function findItem($id)
+{
+   $arrayData = getTrashData();
+   foreach ($arrayData as $item) {
+      if($item["id"] == $id){
+         return $item;
+      }
+   }
+   return false;
+}
+
+/**
  * Add item into trash.json
  * @param {*Array} -> $item
  */
