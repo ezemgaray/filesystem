@@ -185,7 +185,33 @@ function showInfo(path) {
    })
 }
 
+/* --- BUTTONS TO ADD FILE/FOLDER --- */
+
+/**
+ * print buttons to add folder or file
+ * @param {*String} uri 
+ */
+function newFileFolderButtons(uri) {
+   if (!$("#add-ff").is(':empty') && uri) {
+      $("#add-ff").html(`
+         <a href="#" class="m-1 add-btn folder">
+            <i class="fa fa-folder-plus button"></i>
+         </a>
+         <a href="#" class="mb-1 add-btn">
+            <i class="fa fa-file-medical button"></i>
+         </a>
+      `)
+   } else {
+      $("#add-ff").html(" ")
+   }
+}
+
 /* --- ADD FOLDER --- */
+
+/**
+ * generates the input and event to add folder. 
+ * if it loses focus it is canceled
+ */
 $("#add-ff").on("click", "a.add-btn", function (e) {
    $("#folders")
       .append($('<div class="border p-2 m-2 rounded"></div>')
@@ -205,20 +231,6 @@ $("#add-ff").on("click", "a.add-btn", function (e) {
    })
 })
 
-function newFileFolderButtons(uri) {
-   if (!$("#add-ff").is(':empty') && uri) {
-      $("#add-ff").html(`
-         <a href="#" class="m-1 add-btn folder">
-            <i class="fa fa-folder-plus button"></i>
-         </a>
-         <a href="#" class="mb-1 add-btn">
-            <i class="fa fa-file-medical button"></i>
-         </a>
-      `)
-   } else {
-      $("#add-ff").html(" ")
-   }
-}
 
 function createFolder(path) {
    $.ajax({
@@ -239,6 +251,13 @@ function createFolder(path) {
    })
 }
 
+/* --- UPDATE MENU --- */
+
+/**
+ * Update the folder menu and access the current folder.
+ * By default access the root.
+ * @param {*String} path 
+ */
 function updateMenu(path = "root/") {
    $.ajax({
       type: "POST",
@@ -258,7 +277,9 @@ function updateMenu(path = "root/") {
 }
 
 /* --- CONTEXT MENU --- */
-
+/**
+ * generates the context menu
+ */
 var contextMenu = CtxMenu(".file");
 contextMenu.addItem("Change Name  ", function (e) {
    editName(e)
@@ -275,6 +296,10 @@ contextMenu.addItem("Delete", function (e) {
 
 /* --- CHANGE NAME --- */
 
+/**
+ * generates the input and the event to send the request. 
+ * if it loses focus it is canceled
+ */
 function editName(elem) {
    let icon = $(elem).find("i")
    let name = $(elem).text()
@@ -319,19 +344,23 @@ function changeName(path, oldName, newName) {
 
 /* --- DELETE FILE OR FOLDER --- */
 
+/**
+ * request confirmation and if accepted, make the request to move to trash
+ * @param {*HTML Element} elem 
+ */
 function deleteFileFolder(elem){
-   let name = $(elem).text()
+   let name = $(elem).text().trim()
    let extension = $(elem).attr("data-ext") == "folder" ? "" : "." + $(elem).attr("data-ext")
    let fullName = (name+extension).trim()
    let path = getOpenFilePath();
-   let newPath = "trash" + fullName 
    $.ajax({
       type: "POST",
       url: "move-trash.php",
       data: {
          "path": path,
-         "new-path": newPath,
-         "name": fullName
+         "name": name,
+         "full-name": fullName,
+         "extension": extension
       },
       success: function (data) {
          console.log(data);

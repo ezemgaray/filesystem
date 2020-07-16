@@ -13,7 +13,6 @@ if (isset($_POST["path"])) {
       echo json_encode(["aa" =>"aqui"]);
       die();
    }
-
    $old = $path . $_POST["old-name"];
    $new = $path . $_POST["new-name"];
    if(!rename($old, $new)){

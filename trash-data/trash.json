@@ -1,13 +1,11 @@
-[
-   {
-      "id": 1,
-      "name": "",
-      "extension": "",
-      "created": "",
-      "modified": "",
-      "trash": "",
-      "full_name": "",
-      "old_path": "",
-      "old_parent_path": ""
-   }
-]
+[{
+   "id": 1,
+   "name": "",
+   "full_name": "",
+   "extension": "",
+   "created": "",
+   "modified": "",
+   "trash": "",
+   "old_path": "",
+   "old_parent_path": ""
+}]

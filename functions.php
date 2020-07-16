@@ -97,7 +97,7 @@ function addToTrashJson(array $item)
    $data = getTrashData();
    if ($data == NULL) $data = [];
    array_push($data, $item);
-   $file = "trash-data/file-temp.json";
+   $file = "trash-data/trash-temp.json";
    fopen($file, "w");
    file_put_contents($file, json_encode($data));
    if (!unlink("trash-data/trash.json")) {
