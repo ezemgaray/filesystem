@@ -338,3 +338,10 @@ a.a-trash:hover i{
 .error .fa{
    color: red;
 }
+
+
+/*---------------------- MEDIA  PREVIEW -------------------------*/
+.media-preview{
+   width: 100%;
+   cursor: pointer;
+}
