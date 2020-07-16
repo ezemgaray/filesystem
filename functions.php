@@ -78,7 +78,7 @@ function getTrashData()
  * Add item into trash.json
  * @param {*Array} -> $item
  */
-function addToTrash(array $item)
+function addToTrashJson(array $item)
 {
    $data = getTrashData();
    if ($data == NULL) $data = [];
@@ -98,7 +98,7 @@ function addToTrash(array $item)
  * delete item from trash.json
  * @param {*Array} -> $toRemove - item to remove
  */
-function removeItem(array $toRemove)
+function removeFromTrashJson(array $toRemove)
 {
    $dataList = getTrashData();
    unset($dataList[array_search($toRemove, $dataList)]);
