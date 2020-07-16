@@ -277,7 +277,7 @@ function editName(elem) {
    let icon = $(elem).find("i")
    let name = $(elem).text()
    let extension = $(elem).attr("data-ext") == "folder" ? "" : "." + $(elem).attr("data-ext")
-   let fullName = (name+extension)
+   let fullName = (name+extension).trim()
    $(elem).first().text("")
    $(elem).append($(`<p></p>`).append(icon)
    .append($('<input type="text" id="rename-folder" class="new-folder">')).append(" " + extension))
@@ -295,6 +295,9 @@ function editName(elem) {
 }
 
 function changeName(path, oldName, newName) {
+   console.log(path);
+   console.log(oldName);
+   console.log(newName);
    $.ajax({
       type: "POST",
       url: "change-name.php",
@@ -304,6 +307,7 @@ function changeName(path, oldName, newName) {
          "new-name": newName
       },
       success: function (data) {
+         console.log(data);
          data = JSON.parse(data)
          if (data.ok) {
             updateMenu(getOpenFilePath())
