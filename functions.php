@@ -62,3 +62,53 @@ function getSize($path)
    }
    return $bytes;
 }
+
+
+/**
+ * Return trash data
+ */
+function getTrashData()
+{
+   $data = file_get_contents("trash-data/trash.json");
+   $arrayData = json_decode($data, true);
+   return $arrayData;
+}
+
+/**
+ * Add item into trash.json
+ * @param {*Array} -> $item
+ */
+function addToTrash(array $item)
+{
+   $data = getTrashData();
+   if ($data == NULL) $data = [];
+   array_push($data, $item);
+   $file = "trash-data/file-temp.json";
+   fopen($file, "w");
+   file_put_contents($file, json_encode($data));
+   if (!unlink("trash-data/trash.json")) {
+      return false;
+   } else {
+      rename($file, "trash-data/trash.json");
+      return true;
+   }
+}
+
+/**
+ * delete item from trash.json
+ * @param {*Array} -> $toRemove - item to remove
+ */
+function removeItem(array $toRemove)
+{
+   $dataList = getTrashData();
+   unset($dataList[array_search($toRemove, $dataList)]);
+   $file = "trash-data/file-temp.json";
+   fopen($file, "w");
+   file_put_contents($file, json_encode($dataList));
+   if (!unlink("trash-data/trash.json")) {
+      return false;
+   } else {
+      rename($file, "trash-data/trash.json");
+      return true;
+   }
+}
