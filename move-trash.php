@@ -25,14 +25,29 @@ if (isset($_POST["path"])) {
       if (copy ($old,$new)) {
          unlink($old);
          addToTrashJson($newItem);
-         echo json_encode(["ok" =>'message']);
+         echo json_encode([
+            "type" => "success",
+            "thumb" => "thumbs-up",
+            "subject" => "Move to Trash",
+            "message" => "File \"". $_POST["full-name"] ."\" has been removed. From the trash you can delete the file permanently."
+            ]);
          die();
       }
-      echo json_encode(["aa" =>"aqui"]);
+      echo json_encode([
+         "type" => "danger",
+         "thumb" => "thumbs-down",
+         "subject" => "Move to Trash",
+         "message" => "Could not delete file \"". $_POST["full-name"] ."\"."
+         ]);
       die();
    }else{
       addToTrashJson($newItem);
-      echo json_encode(["ok" =>'message']);
+      echo json_encode([
+         "type" => "success",
+         "thumb" => "thumbs-up",
+         "subject" => "Move to Trash",
+         "message" => "File \"". $_POST["full-name"] ."\" has been removed. From the trash you can delete the file permanently."
+         ]);
       die();
    }
 }

@@ -332,7 +332,8 @@ function updateMenu(path = "root/") {
          $(path).each(function (key, name) {
             $($("#menu-list").find('[data-name="' + name + '"]')).click()
          })
-         $('[data-toggle="tooltip"]').tooltip("hide")
+         // $('[data-toggle="tooltip"]').tooltip("hide")
+         $('.tooltip').tooltip("hide")
       }
    })
 }
@@ -350,7 +351,7 @@ contextMenu.addSeperator();
 
 contextMenu.addItem("Delete", function (e) {
    if (confirm("Are you sure? Delete " + $(e).text() + ($(e).attr("data-ext") == "folder" ? "/" : "." + $(e).attr("data-ext")))) {
-      deleteFileFolder(e)
+      moveToTrash(e)
    }
 }, "https://image.flaticon.com/icons/svg/60/60761.svg");
 
@@ -414,7 +415,7 @@ function changeName(path, oldName, newName) {
  * request confirmation and if accepted, make the request to move to trash
  * @param {*HTML Element} elem 
  */
-function deleteFileFolder(elem) {
+function moveToTrash(elem) {
    let name = $(elem).text().trim()
    let extension = $(elem).attr("data-ext") == "folder" ? "" : "." + $(elem).attr("data-ext")
    let fullName = (name + extension).trim()
@@ -430,10 +431,11 @@ function deleteFileFolder(elem) {
       },
       success: function (data) {
          data = JSON.parse(data)
-         if (data.ok) {
+         if (data.type == "success") {
             updateMenu(getOpenFilePath())
+            showToast(data)
          } else {
-            $("#rename-folder").parent().addClass("error")
+            showToast(data)
          }
       }
    })
