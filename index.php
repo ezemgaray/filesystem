@@ -20,10 +20,10 @@ require("functions.php");
    </div>
    <!-- <div class="page-wrapper  d-flex"> -->
 
-   <div class="border-bottom d-flex justify-content-between align-items-center p-2 m-auto w-100">
+   <div class="border-bottom d-flex justify-content-between align-items-center p-2 m-auto search-var">
       <h3 class="m-0 ml-2">FileSystem</h3>
       <form class="form-inline d-flex justify-content-center md-form form-sm active-cyan-2 ">
-         <input class="form-control form-control-sm mr-3 w-75" type="text" placeholder="Search" aria-label="Search">
+         <input class="form-control form-control-sm mr-3 w-75" type="text" id="search" placeholder="Search" aria-label="Search">
          <i class="fas fa-search" aria-hidden="true"></i>
       </form>
    </div>

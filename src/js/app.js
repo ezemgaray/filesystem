@@ -1,3 +1,6 @@
+let currentPath
+let timeOut = false
+
 if (window.location.search) {
    let param = new URLSearchParams(window.location.search)
    updateMenu(param.get("root"))
@@ -49,7 +52,15 @@ $(".sidebar-menu").on("click", "a", function () {
    $(".aside-view").html("")
    $(this).toggleClass("open")
    $(this).children().first().toggleClass("fa-folder fa-folder-open")
-   sendRequestFiles()
+
+   if (timeOut)
+      clearTimeout(timeOut)
+   timeOut = setTimeout(() => {
+      currentPath = ""
+      currentPath = getOpenFilePath()
+      sendRequestFiles()
+   }, 50);
+
    $(".sidebar-menu, .bread-crumb").animate({
       scrollLeft: $('.sidebar-menu').prop("scrollWidth")
    }, 1000);
@@ -60,20 +71,17 @@ $(".sidebar-menu").on("click", "a", function () {
 function sendRequestFiles() {
    $("#folders").html("")
    $("#files").html("")
-   let uri = ""
-   if ($(".open").length) {
-      // Build uri
-      uri = getOpenFilePath()
-      printBreadcrumb(uri)
+   if (currentPath) {
+      printBreadcrumb(currentPath)
 
       $.ajax({
          type: "POST",
          url: "get-files.php",
          data: {
-            "uri": uri
+            "uri": currentPath
          },
          success: function (data) {
-            if (uri != getOpenFilePath()) return
+            if (currentPath != getOpenFilePath()) return
             data = JSON.parse(data)
             $("#folders").html("")
             $("#files").html("")
@@ -84,12 +92,12 @@ function sendRequestFiles() {
             if (!data.folders && !data.files)
                printFolder()
             window.history.pushState({
-               page: './index.php?root=' + uri
-            }, uri, './index.php?root=' + uri);
+               page: './index.php?root=' + currentPath
+            }, "Folder", './index.php?root=' + currentPath);
          }
       })
    } else {
-      printBreadcrumb(uri)
+      printBreadcrumb(currentPath)
    }
 }
 
@@ -143,9 +151,8 @@ function printFile(data) {
 
 $("#folders").on("dblclick", "div.file", function (e) {
    $opened = $(".open").last().parent()
-   $name = $(this).children().first().text().trim()
-   $($opened.find('[data-name="' + $name + '"]'))[0].click()
-
+   let id = $(this).attr("data-id")
+   $($opened.find('[data-id="' + id + '"]')).click()
 })
 
 /**
@@ -167,7 +174,7 @@ function getOpenFilePath(forInfo = "") {
 /* --- SHOW INFO --- */
 $("#folders, #files").on("click", "div.file", function (e) {
    let fullName = $(this).attr("data-ext") == "folder" ? $(this).text() : $(this).text() + "." + $(this).attr("data-ext")
-   showInfo(getOpenFilePath(fullName))
+   showInfo(currentPath + fullName.trim())
 
 })
 
@@ -226,7 +233,7 @@ $("#add-ff").on("click", "a.add-btn.add-folder", function (e) {
    $("#new-folder").keyup(function (e) {
       e.preventDefault()
       if (e.keyCode == 13) {
-         createFolder(getOpenFilePath($("#new-folder").val().trim()))
+         createFolder(currentPath + $("#new-folder").val().trim() + "/")
       }
    })
    $("#new-folder").blur(function () {
@@ -246,7 +253,7 @@ function createFolder(path) {
       success: function (data) {
          data = JSON.parse(data)
          if (data.type == "success") {
-            updateMenu(getOpenFilePath())
+            updateMenu(currentPath)
             showToast(data)
          } else {
             $("#new-folder").parent().addClass("error")
@@ -265,7 +272,7 @@ function createFolder(path) {
  * if it loses focus it is canceled
  */
 $("#add-ff").on("change", "#add-new-file", function (e) {
-   addFile(getOpenFilePath())
+   addFile(currentPath)
 })
 
 function addFile(path) {
@@ -282,7 +289,7 @@ function addFile(path) {
       success: function (data) {
          data = JSON.parse(data)
          if (data.type == "success") {
-            updateMenu(getOpenFilePath())
+            updateMenu(currentPath)
             showToast(data)
          } else {
             showToast(data)
@@ -311,7 +318,6 @@ function showToast(data) {
    })
 }
 
-
 /* --- UPDATE MENU --- */
 
 /**
@@ -329,15 +335,29 @@ function updateMenu(path = "root/") {
       success: function (data) {
          data = JSON.parse(data)
          $("#menu-list").html("").append(data.menu)
-         path = path.split("/")
-         path.pop()
-         $(path).each(function (key, name) {
-            $($("#menu-list").find('[data-name="' + name + '"]'))[0].click()
+         let arrayPath = path.split("/")
+         arrayPath.pop()
+         let aux
+         $(arrayPath).each(function (key, name) {
+            if (key == 0) {
+               if ($('#menu-list [data-name="' + name + '"]')) {
+                  $('#menu-list [data-name="' + name + '"]').click()
+                  aux = $('#menu-list [data-name="' + name + '"]')
+               }
+            } else {
+
+               if ($('[data-id="' + aux[0].dataset.id + '"] ~ div > ul > li > a[data-name="' + name + '"]')) {
+                  $('[data-id="' + aux[0].dataset.id + '"]  ~ div > ul > li > a[data-name="' + name + '"]').click()
+               }
+               aux = $('[data-id="' + aux[0].dataset.id + '"]  ~ div  a[data-name="' + name + '"]')
+            }
          })
-         $('.tooltip').tooltip("hide")
-         $('#trash-count').text(data.trashCount)
+         // print number of elements into trash
+         $('#trash-count').text(data.trash);
+         $('[data-toggle="tooltip"]').tooltip("hide")
       }
    })
+
 }
 
 /* --- CONTEXT MENU --- */
@@ -378,7 +398,7 @@ function editName(elem) {
       e.preventDefault()
       if (e.keyCode == 13) {
          let newName = $("#rename-folder").val().trim() + extension
-         changeName(getOpenFilePath(), fullName, newName)
+         changeName(currentPath, fullName, newName)
       }
    })
    $("#rename-folder").blur(function () {
@@ -399,7 +419,7 @@ function changeName(path, oldName, newName) {
       success: function (data) {
          data = JSON.parse(data)
          if (data.type == "success") {
-            updateMenu(getOpenFilePath())
+            updateMenu(currentPath)
             showToast(data)
          } else {
             $("#rename-folder").parent().addClass("error")
@@ -421,7 +441,7 @@ function moveToTrash(elem) {
    let name = $(elem).text().trim()
    let extension = $(elem).attr("data-ext") == "folder" ? "" : "." + $(elem).attr("data-ext")
    let fullName = (name + extension).trim()
-   let path = getOpenFilePath();
+   let path = currentPath
    $.ajax({
       type: "POST",
       url: "move-trash.php",
@@ -434,7 +454,7 @@ function moveToTrash(elem) {
       success: function (data) {
          data = JSON.parse(data)
          if (data.type == "success") {
-            updateMenu(getOpenFilePath())
+            updateMenu(currentPath)
             showToast(data)
          } else {
             showToast(data)
@@ -442,6 +462,7 @@ function moveToTrash(elem) {
       }
    })
 }
+
 
 
 // $('[data-toggle="tooltip"]').tooltip()

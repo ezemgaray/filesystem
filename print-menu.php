@@ -7,6 +7,7 @@ if(isset($_POST["from"])){
  */
 $html = "";
 function printMenu($target, &$html = ""){
+   $trashLen = count(scandir("trash/"))-2;
    if (is_dir($target)) {
       $files = str_replace("\\", "/", glob($target . '*', GLOB_MARK)); //GLOB_MARK adds a slash to directories returned
       $name = explode("/", $target);
@@ -14,7 +15,7 @@ function printMenu($target, &$html = ""){
       if (count($files)) {
          //have folders
          $html .= '<li class="sidebar-dropdown">'
-            . '<a href="#" data-name="' . end($name) . '" class="w-100">'
+            . '<a href="#" data-id="'. filectime($target) .'" data-name="' . end($name) . '" class="w-100">'
             . '<i class="fa fa-folder"></i>'
             . '<span>' . end($name) . '</span>'
             . '</a>'
@@ -29,12 +30,11 @@ function printMenu($target, &$html = ""){
       } else {
          //have no folders
          $html .= '<li>'
-            . '<a href="#" data-name="' . end($name) . '" "class="w-100">'
+            . '<a href="#" data-id="'. filectime($target) .'" data-name="' . end($name) . '" class="w-100">'
             . '<i class="fa fa-folder"></i>' . end($name)
             . '</a>'
             . '</li>';
       }
    }
-   $count = (count(scandir("trash/")) - 2);
-   return json_encode(["menu" => $html, "trashCount" => $count]);
+   return json_encode(["menu"=>$html,"trash"=>$trashLen]);
 }

@@ -245,11 +245,14 @@ body{
    padding: 20px;
 }
 
-/*---------------------- FILE CARD -------------------------*/
-.file{
+/*---------------------- FILE/TRASH CARD -------------------------*/
+.file,
+.in-trash{
    cursor: pointer;
 }
-.file:hover, .file:focus {
+.file:hover, 
+.file:focus,
+.in-trash:hover, .in-trash:focus {
    background-color: #000;
    color: #fff;
    outline: none;
@@ -384,4 +387,15 @@ label.add-btn{
 .toast{
    width: 400px;
    height: auto;
+}
+
+/*---------------------- SEARCH -------------------------*/
+
+.search-var{
+   width: 100%;
+}
+@media all and (min-width: 1024px){
+   .search-var{
+      width: 65%;
+   }
 }

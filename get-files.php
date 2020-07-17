@@ -8,13 +8,13 @@ if (isset($_POST["uri"])) {
    $folders = "";
    foreach ($content as $file) {
       if (is_file($_POST["uri"] . $file)) {
-         $files .= '<div class="border p-2 m-2 rounded file" tabindex="0" data-ext="' . pathinfo(($_POST["uri"] . $file), PATHINFO_EXTENSION) . '">'
+         $files .= '<div class="border p-2 m-2 rounded file" tabindex="0" data-id="'. filectime($_POST["uri"] . $file) .'" data-ext="' . pathinfo(($_POST["uri"] . $file), PATHINFO_EXTENSION) . '">'
             . '<p> <i class="fa ' . getIcon(($_POST["uri"] . $file)) . ' mr-2"></i>' . pathinfo(($_POST["uri"] . $file), PATHINFO_FILENAME) . '</p>'
             . '</div>';
       } else if ($file != "." && $file != "..") {
          if(is_dir($_POST["uri"] . $file . "/")){
 
-            $folders .= '<div class="border p-2 m-2 rounded file" tabindex="0" data-ext="folder">'
+            $folders .= '<div class="border p-2 m-2 rounded file" tabindex="0" data-id="'. filectime($_POST["uri"] . $file) .'" data-ext="folder">'
             . '<p> <i class="fa fa-folder mr-2"></i>' . $file . '</p>'
             . '</div>';
          }
