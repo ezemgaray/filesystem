@@ -463,30 +463,8 @@ function moveToTrash(elem) {
    })
 }
 
-/* --- SEARCH --- */
-
-$("#search").keyup(function(){
-   let value = $("#search").val()
-   $.ajax({
-      type: "POST",
-      url: "search.php",
-      data: {
-         "search": value
-      },
-      success: function (data) {
-         if(value != data.value) return
-         $("#folders").html("")
-         $("#files").html("")
-         $("#files").after(`<div class="d-flex flex-wrap justify-content-round p-2 border-top" id="extensions"></div>`)
-         data =JSON.parse(data)
-         $("#folders").html(data.folders)
-         $("#files").html(data.files)
-         $("#extensions").html(data.extensions)
-      }
-})
-
 
 // $('[data-toggle="tooltip"]').tooltip()
 $("body").on("mouseenter mouseleave", '[data-toggle="tooltip"]', function () {
    $(this).tooltip()
-});
+})
