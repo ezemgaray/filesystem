@@ -1,9 +1,9 @@
 let currentPath
 let timeOut = false
 
-if (window.location.search) {
-   let param = new URLSearchParams(window.location.search)
-   updateMenu(param.get("root"))
+if (document.location.search) {
+   let param = (document.location.search).split("=").pop()
+   updateMenu(param)
 } else {
    updateMenu()
 }
@@ -61,6 +61,7 @@ $(".sidebar-menu").on("click", "a", function () {
       sendRequestFiles()
    }, 50);
 
+
    $(".sidebar-menu, .bread-crumb").animate({
       scrollLeft: $('.sidebar-menu').prop("scrollWidth")
    }, 1000);
@@ -78,7 +79,7 @@ function sendRequestFiles() {
          type: "POST",
          url: "search.php",
          data: {
-            "uri": currentPath
+            "root": currentPath
          },
          success: function (data) {
             if (currentPath != getOpenFilePath()) return
@@ -87,9 +88,12 @@ function sendRequestFiles() {
             $("#files").html("").html(data.files)
             $("#folders-count").text($("#folders").children().length)
             $("#files-count").text($("#files").children().length)
+            let folder = currentPath.split("/")
+            folder.pop()
+            folder = folder.pop()
             window.history.pushState({
-               page: './index.php?root=' + currentPath
-            }, "Folder", './index.php?root=' + currentPath);
+               path: folder
+            }, folder, 'http://localhost/filesystem/index.php?root=' + currentPath);
          }
       })
    } else {
@@ -102,7 +106,10 @@ function sendRequestFiles() {
  * @param {*String} uri -> folder path
  */
 function printBreadcrumb(uri) {
-   if (uri) {
+   if (uri == "search") {
+      $("#breadcrumb").css("background-color", "#d4edda").html(`Results for: <b>"${$("#search").val()}"</b>`)
+   } else if (uri && uri != "search") {
+      $("#breadcrumb").removeAttr("style")
       let arrUri = uri.split("/")
       arrUri.pop()
       let link = ""
@@ -171,7 +178,6 @@ function showInfo(path) {
  */
 function newFileFolderButtons(uri) {
    if (!$("#add-ff").is(':empty') && uri) {
-      $("#search-result").html("")
       $("#add-ff").html(`
          <a href="#" class="m-1 add-btn add-folder" data-toggle="tooltip" data-placement="top" title="Add Folder">
             <i class="fa fa-folder-plus button"></i>
@@ -184,7 +190,7 @@ function newFileFolderButtons(uri) {
       $('.add-btn').tooltip()
    } else {
       $("#add-ff").html(" ")
-      $("#search-result").html(`<div class="alert alert-warning m-2 p-2" role="alert">Sorry, you don't have access to other directories  <i class="fa fa-user-lock"></i></div>`)
+      $("#folders").html(`<div class="alert alert-warning m-2 p-2" role="alert">Sorry, you don't have access to other directories  <i class="fa fa-user-lock"></i></div>`)
       $("#folders-count").text("0")
       $("#files-count").text("0")
    }
@@ -446,15 +452,15 @@ $("#search").keyup(function () {
       url: "search.php",
       data: {
          "search": value,
-         "uri": "root/"
+         "root": "root/"
       },
       success: function (data) {
          data = JSON.parse(data)
-         if(value){
-            $("#search-result").html(`<div class="alert alert-success">Results for ${value}</div>`)
-         }else{
-            $("#search-result").html("")
+         if (value) {
+            printBreadcrumb("search")
+         } else {
             sendRequestFiles(currentPath)
+            printBreadcrumb(currentPath)
          }
          $("#folders").html("").html(data.folders)
          $("#files").html("").html(data.files)

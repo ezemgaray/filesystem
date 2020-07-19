@@ -1,16 +1,16 @@
 <?php
 require("functions.php");
 
-if (isset($_POST["uri"])) {
+if (isset($_POST["root"])) {
 
-   $content = scandir($_POST["uri"]);
+   $content = scandir($_POST["root"]);
    $data = [];
    $files = "";
    $folders = "";
 
    $search = isset($_POST["search"]) ? $_POST["search"] : false;
 
-   search($_POST["uri"], $files, $folders, $search);
+   search($_POST["root"], $files, $folders, $search);
 }
 function search($url, &$files, &$folders, $search)
 {
