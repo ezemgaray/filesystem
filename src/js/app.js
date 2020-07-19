@@ -3,12 +3,10 @@ let timeOut = false
 
 if (document.location.search) {
    let param = (document.location.search).split("=").pop()
-   if (param == "trash/") {
-      currentPath = param
-   }
+   if (param == "trash/") currentPath = param
    updateMenu(param)
    sendRequestFiles()
-
+   if(param == "") newFileFolderButtons(param)
 } else {
    updateMenu()
 }
@@ -61,7 +59,6 @@ $(".sidebar-menu").on("click", "a", function () {
    if (timeOut)
       clearTimeout(timeOut)
    timeOut = setTimeout(() => {
-      currentPath = ""
       currentPath = getOpenFilePath()
       sendRequestFiles()
    }, 50);
@@ -77,7 +74,7 @@ $(".sidebar-menu").on("click", "a", function () {
 function sendRequestFiles() {
    $("#folders").html("")
    $("#files").html("")
-   if (currentPath) {
+   if (currentPath && currentPath.match("/root\/||trash\//")) {
       printBreadcrumb(currentPath)
 
       $.ajax({
@@ -102,7 +99,11 @@ function sendRequestFiles() {
          }
       })
    } else {
-      printBreadcrumb(currentPath)
+      window.history.pushState({
+         path: "null"
+      }, "", 'http://localhost/filesystem/index.php?root=');
+      newFileFolderButtons("")
+      printBreadcrumb("")
    }
 }
 
@@ -111,7 +112,6 @@ function sendRequestFiles() {
  * @param {*String} uri -> folder path
  */
 function printBreadcrumb(uri) {
-   console.log(uri);
    switch (uri) {
       case undefined:
          $("#breadcrumb").text(" ")
@@ -191,7 +191,6 @@ function showInfo(path) {
  * @param {*String} uri 
  */
 function newFileFolderButtons(uri) {
-   console.log(uri);
    if (!$("#add-ff").is(':empty') && uri) {
       $("#add-ff").html(`
          <a href="#" class="m-1 add-btn add-folder" data-toggle="tooltip" data-placement="top" title="Add Folder">
@@ -462,7 +461,7 @@ function moveToTrash(elem) {
    })
 }
 
-function deletePermanently(elem){
+function deletePermanently(elem) {
    $.ajax({
       type: "POST",
       url: "delete.php",
@@ -470,7 +469,6 @@ function deletePermanently(elem){
          "path": $(elem).attr("data-path")
       },
       success: function (data) {
-         console.log(data);
          data = JSON.parse(data)
          if (data.type == "success") {
             updateMenu(currentPath)
