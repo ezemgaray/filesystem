@@ -44,8 +44,6 @@ function search($url, &$files, &$folders, $search)
       } else {
          if($_POST["root"] == "trash/"){
             $item = findItem($file);
-            // print_r($item);
-            // die();
             if (is_file($url . $file)) {
                $files .= '<div class="border p-2 m-2 rounded file trash" tabindex="0" data-path="' . $url . $file . '" data-id="' . $item["id"] . '" data-ext="' . pathinfo(($url . $file), PATHINFO_EXTENSION) . '">'
                . '<p> <i class="fa ' . getIcon(($url . $file)) . ' mr-2"></i>' . $item["name"] . '</p>'

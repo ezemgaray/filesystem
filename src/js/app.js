@@ -203,7 +203,7 @@ function newFileFolderButtons(uri) {
          </label>
       `)
       $('.add-btn').tooltip()
-   } else if(uri == ""){
+   } else if (uri == "") {
       $("#add-ff").html(" ")
       $("#folders").html(`<div class="alert alert-warning m-2 p-2" role="alert">Sorry, you don't have access to other directories  <i class="fa fa-user-lock"></i></div>`)
       $("#folders-count").text("0")
@@ -369,7 +369,10 @@ contextMenu.addSeperator();
 
 contextMenu.addItem("Delete", function (e) {
    if (confirm("Are you sure? Delete " + $(e).text() + ($(e).attr("data-ext") == "folder" ? "/" : "." + $(e).attr("data-ext")))) {
-      moveToTrash(e)
+      if ($(e).attr("data-path").includes("trash/"))
+         deletePermanently(e)
+      else
+         moveToTrash(e)
    }
 }, "https://image.flaticon.com/icons/svg/60/60761.svg");
 
@@ -451,6 +454,27 @@ function moveToTrash(elem) {
          data = JSON.parse(data)
          if (data.type == "success") {
             updateMenu(currentPath)
+            showToast(data)
+         } else {
+            showToast(data)
+         }
+      }
+   })
+}
+
+function deletePermanently(elem){
+   $.ajax({
+      type: "POST",
+      url: "delete.php",
+      data: {
+         "path": $(elem).attr("data-path")
+      },
+      success: function (data) {
+         console.log(data);
+         data = JSON.parse(data)
+         if (data.type == "success") {
+            updateMenu(currentPath)
+            sendRequestFiles()
             showToast(data)
          } else {
             showToast(data)

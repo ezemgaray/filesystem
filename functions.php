@@ -126,3 +126,72 @@ function removeFromTrashJson(array $toRemove)
       return true;
    }
 }
+
+
+
+
+function deleteElement($dir)
+{
+   if(is_file($dir)){
+      if(@unlink($dir)){
+         echo json_encode([
+            "type" => "success",
+            "thumb" => "thumbs-up",
+            "subject" => "Delete",
+            "message" => "File \"". $dir ."\" has been removed. From the trash you can delete the file permanently."
+            ]);
+         die();
+      }else{
+         echo json_encode([
+            "type" => "danger",
+            "thumb" => "thumbs-down",
+            "subject" => "Delete",
+            "message" => "Could not delete file \"". $_POST["full-name"] ."\"."
+            ]);
+         die();
+      }
+   }
+   if (!$dh = @opendir($dir)){
+      if(@rmdir($dir)){
+         echo json_encode([
+            "type" => "success",
+            "thumb" => "thumbs-up",
+            "subject" => "Delete",
+            "message" => "File \"". $dir ."\" has been removed. From the trash you can delete the file permanently."
+            ]);
+         die();
+      }else{
+         echo json_encode([
+            "type" => "danger",
+            "thumb" => "thumbs-down",
+            "subject" => "Delete",
+            "message" => "Could not delete file \"". $_POST["full-name"] ."\"."
+            ]);
+         die();
+      }
+   }
+   while (false !== ($current = readdir($dh))) {
+      if ($current != '.' && $current != '..') {
+         if (!@unlink($dir . '/' . $current))
+            deleteElement($dir . '/' . $current);
+      }
+   }
+   closedir($dh);
+   if(@rmdir($dir)){
+      echo json_encode([
+         "type" => "success",
+         "thumb" => "thumbs-up",
+         "subject" => "Delete",
+         "message" => "File \"". $dir ."\" has been removed. From the trash you can delete the file permanently."
+         ]);
+      die();
+   }else{
+      echo json_encode([
+         "type" => "danger",
+         "thumb" => "thumbs-down",
+         "subject" => "Delete",
+         "message" => "Could not delete file \"". $_POST["full-name"] ."\"."
+         ]);
+      die();
+   }
+}
