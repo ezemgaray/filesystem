@@ -171,9 +171,10 @@ $("#folders, #files").on("click", "div.file", function (e) {
 })
 
 function showInfo(path) {
+   let url = path.includes("trash") ? "show-trash-info.php" : "show-info.php"
    $.ajax({
       type: "POST",
-      url: "show-info.php",
+      url: url,
       data: {
          "path": path
       },

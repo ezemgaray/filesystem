@@ -42,14 +42,29 @@ function search($url, &$files, &$folders, $search)
             }
          }
       } else {
-         if (is_file($url . $file)) {
-            $files .= '<div class="border p-2 m-2 rounded file" tabindex="0" data-path="' . $url . $file . '" data-id="' . filectime($url . $file) . '" data-ext="' . pathinfo(($url . $file), PATHINFO_EXTENSION) . '">'
+         if($_POST["root"] == "trash/"){
+            $item = findItem($file);
+            // print_r($item);
+            // die();
+            if (is_file($url . $file)) {
+               $files .= '<div class="border p-2 m-2 rounded file trash" tabindex="0" data-path="' . $url . $file . '" data-id="' . $item["id"] . '" data-ext="' . pathinfo(($url . $file), PATHINFO_EXTENSION) . '">'
+               . '<p> <i class="fa ' . getIcon(($url . $file)) . ' mr-2"></i>' . $item["name"] . '</p>'
+               . '</div>';
+            } else if (is_dir($url . $file . "/")) {
+               $folders .= '<div class="border p-2 m-2 rounded file trash" tabindex="0" data-path="' . $url . $file . '" data-id="' . $item["id"] . '" data-ext="folder">'
+               . '<p> <i class="fa fa-folder mr-2"></i>' . $item["name"] . '</p>'
+               . '</div>';
+            }
+         }else{
+            if (is_file($url . $file)) {
+               $files .= '<div class="border p-2 m-2 rounded file" tabindex="0" data-path="' . $url . $file . '" data-id="' . filectime($url . $file) . '" data-ext="' . pathinfo(($url . $file), PATHINFO_EXTENSION) . '">'
                . '<p> <i class="fa ' . getIcon(($url . $file)) . ' mr-2"></i>' . pathinfo(($url . $file), PATHINFO_FILENAME) . '</p>'
                . '</div>';
-         } else if (is_dir($url . $file . "/")) {
-            $folders .= '<div class="border p-2 m-2 rounded file" tabindex="0" data-path="' . $url . $file . '" data-id="' . filectime($url . $file) . '" data-ext="folder">'
+            } else if (is_dir($url . $file . "/")) {
+               $folders .= '<div class="border p-2 m-2 rounded file" tabindex="0" data-path="' . $url . $file . '" data-id="' . filectime($url . $file) . '" data-ext="folder">'
                . '<p> <i class="fa fa-folder mr-2"></i>' . $file . '</p>'
                . '</div>';
+            }
          }
       }
    }
