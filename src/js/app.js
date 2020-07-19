@@ -76,21 +76,17 @@ function sendRequestFiles() {
 
       $.ajax({
          type: "POST",
-         url: "get-files.php",
+         url: "search.php",
          data: {
             "uri": currentPath
          },
          success: function (data) {
             if (currentPath != getOpenFilePath()) return
             data = JSON.parse(data)
-            $("#folders").html("")
-            $("#files").html("")
-            if (data.files)
-               printFile(data.files)
-            if (data.folders)
-               printFolder(data.folders)
-            if (!data.folders && !data.files)
-               printFolder()
+            $("#folders").html("").html(data.folders)
+            $("#files").html("").html(data.files)
+            $("#folders-count").text($("#folders").children().length)
+            $("#files-count").text($("#files").children().length)
             window.history.pushState({
                page: './index.php?root=' + currentPath
             }, "Folder", './index.php?root=' + currentPath);
@@ -132,10 +128,11 @@ function printBreadcrumb(uri) {
  * @param {*String} data -> File card
  */
 function printFolder(data = "") {
-   if (data.length)
+   if (data.length) {
       $("#folders").append(data)
-   else
+   } else {
       $("#folders").html("").append(`<div class="alert alert-warning m-2 p-2" role="alert">Empty folder</div>`)
+   }
 }
 /**
  * Print file card into main view
@@ -173,9 +170,7 @@ function getOpenFilePath(forInfo = "") {
 
 /* --- SHOW INFO --- */
 $("#folders, #files").on("click", "div.file", function (e) {
-   let fullName = $(this).attr("data-ext") == "folder" ? $(this).text() : $(this).text() + "." + $(this).attr("data-ext")
-   showInfo(currentPath + fullName.trim())
-
+   showInfo($(this).attr("data-path"))
 })
 
 function showInfo(path) {
@@ -199,6 +194,7 @@ function showInfo(path) {
  */
 function newFileFolderButtons(uri) {
    if (!$("#add-ff").is(':empty') && uri) {
+      $("#search-result").html("")
       $("#add-ff").html(`
          <a href="#" class="m-1 add-btn add-folder" data-toggle="tooltip" data-placement="top" title="Add Folder">
             <i class="fa fa-folder-plus button"></i>
@@ -211,7 +207,9 @@ function newFileFolderButtons(uri) {
       $('.add-btn').tooltip()
    } else {
       $("#add-ff").html(" ")
-      $("#folders").html(`<div class="alert alert-warning m-2 p-2" role="alert">Sorry, you don't have access to other directories  <i class="fa fa-user-lock"></i></div>`)
+      $("#search-result").html(`<div class="alert alert-warning m-2 p-2" role="alert">Sorry, you don't have access to other directories  <i class="fa fa-user-lock"></i></div>`)
+      $("#folders-count").text("0")
+      $("#files-count").text("0")
    }
 }
 
@@ -463,6 +461,31 @@ function moveToTrash(elem) {
    })
 }
 
+/* --- SEARCH --- */
+$("#search").keyup(function () {
+   let value = $("#search").val()
+   $.ajax({
+      type: "POST",
+      url: "search.php",
+      data: {
+         "search": value,
+         "uri": "root/"
+      },
+      success: function (data) {
+         data = JSON.parse(data)
+         if(value){
+            $("#search-result").html(`<div class="alert alert-success">Results for ${value}</div>`)
+         }else{
+            $("#search-result").html("")
+            sendRequestFiles(currentPath)
+         }
+         $("#folders").html("").html(data.folders)
+         $("#files").html("").html(data.files)
+         $("#folders-count").text($("#folders").children().length)
+         $("#files-count").text($("#files").children().length)
+      }
+   })
+})
 
 // $('[data-toggle="tooltip"]').tooltip()
 $("body").on("mouseenter mouseleave", '[data-toggle="tooltip"]', function () {
