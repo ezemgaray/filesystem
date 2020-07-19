@@ -1,0 +1,129 @@
+<?php
+if (isset($_POST)) {
+   if (validaText($_POST["prod-name"])) {
+      echo "correct name";
+   } else {
+      echo "name failed";
+   }
+   echo "<br>";
+   if (validaPrice($_POST['prod-price'], true)) {
+      echo "correct price";
+   } else {
+      echo "price filed";
+   }
+   echo "<br>";
+   if (validaPrice($_POST['prod-extra-price'])) {
+      echo "correct price";
+   } else {
+      echo "price filed";
+   }
+   echo "<br>";
+   if (!empty($_POST['size'])) {
+      $sizes = validaSize($_POST['size']);
+      echo "<pre>";
+      print_r($sizes);
+      echo "</pre>";
+   } else {
+      echo "size filed";
+   }
+   echo "<br>";
+   if (isset($_FILES) == 1 && empty($_FILES["color-1"]["name"])) {
+      echo "colors filed";
+   } else {
+      validaColors();
+   }
+   echo "<pre>";
+   print_r($_FILES);
+   echo "</pre>";
+} else {
+   header("Location: index.php?sec=add-product");
+}
+
+/**
+ * Validate input text. $equired with more than two characters
+ */
+function validaText(string $value)
+{
+   if (strlen(trim($value)) <= 2) {
+      return false;
+   } else {
+      return true;
+   }
+}
+
+/**
+ * Validate input price. 
+ * No letter or commas. e.g. 111111.11
+ * @param {Bool} $required -> Optional - true for numbers > 0
+ */
+function validaPrice(string $value, bool $required = false)
+{
+   $regex = '/^[0-9]{0,9}(\.[0-9]{1,2})?$/';
+   //no letters or commas
+   if (preg_match('/[a-zA-Z\,]/', $value)) {
+      return false;
+   }
+   if (preg_match($regex, $value) == 0 && strlen(trim($value)) == 0) {
+      return false;
+   } else {
+      if ($required && (float) $value == 0) {
+         return false;
+      } else {
+         return true;
+      }
+   }
+}
+
+/**
+ * Valida sizes. at least one is required.
+ * return array of sizes
+ */
+function validaSize(array $sizes)
+{
+   $sizesOk = [];
+   foreach ($sizes as $value) {
+      array_push($sizesOk, $value);
+   }
+   return $sizesOk;
+}
+/**
+ * Valida colors. at least one is required.
+ * return array of array of colors (img url)
+ */
+function validaColors()
+{
+   //destination folder path
+   $folderPath = "../assets/prod/";
+   foreach ($_FILES as $key => $value) {
+      //check if there are files in the input file
+      if (isset($_FILES[$key]) && $_FILES[$key]["name"][0]) {
+
+         // go through all the files
+         for ($i = 0; $i < count($_FILES[$key]["name"]); $i++) {
+
+            // check the image format
+            if ($_FILES[$key]["type"][$i] == "image/jpeg" || $_FILES[$key]["type"][$i] == "image/jpg" || $_FILES[$key]["type"][$i] == "image/pjpeg" || $_FILES[$key]["type"][$i] == "image/png") {
+
+               // Check if the folder exists and if it doesn't exist, create it
+               if (file_exists($folderPath) || @mkdir($folderPath)) {
+                  $origen = $_FILES[$key]["tmp_name"][$i];
+                  $destino = $folderPath . $_FILES[$key]["name"][$i];
+
+                  // add the image to the folder
+                  if (@move_uploaded_file($origen, $destino)) {
+                     echo "<br>" . $_FILES[$key]["name"][$i] . " moved";
+                  } else {
+                     echo "<br>could not upload: " . $_FILES[$key]["name"][$i];
+                  }
+               } else {
+                  echo "<br>could not create folder: " . $folderPath;
+               }
+            } else {
+               echo "<br>" . $_FILES[$key]["name"][$i] . " - it is not a allowed file";
+            }
+         }
+      } else {
+         echo "<br>no image has been uploaded";
+      }
+   }
+}

@@ -17,6 +17,7 @@ if (isset($_POST["path"])) {
       <small class="d-block"><b>Created:</b> <?php echo date("l d, M Y H:i", filectime($path)) ?></small>
       <small class="d-block"><b>Modified:</b> <?php echo date("l d, M Y H:i", filemtime($path)); ?></small>
       <small class="d-block"><b>Extension:</b> <?php echo is_dir($path) ? "Folder" : "." . pathinfo($path, PATHINFO_EXTENSION); ?></small>
+      <small class="d-block"><b>Path:</b> <?php echo $path; ?></small>
       <?php
       if (is_dir($path)) {
       ?>
