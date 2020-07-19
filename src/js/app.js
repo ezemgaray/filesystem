@@ -3,7 +3,12 @@ let timeOut = false
 
 if (document.location.search) {
    let param = (document.location.search).split("=").pop()
-   updateMenu(param)
+   if(param == "trash/"){
+      currentPath = param
+   }
+      updateMenu(param)
+      sendRequestFiles()
+
 } else {
    updateMenu()
 }
@@ -82,7 +87,7 @@ function sendRequestFiles() {
             "root": currentPath
          },
          success: function (data) {
-            if (currentPath != getOpenFilePath()) return
+            // if (currentPath != getOpenFilePath()) return
             data = JSON.parse(data)
             $("#folders").html("").html(data.folders)
             $("#files").html("").html(data.files)
