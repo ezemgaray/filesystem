@@ -123,29 +123,6 @@ function printBreadcrumb(uri) {
    }
 }
 
-/**
- * Print file card into main view
- * @param {*String} data -> File card
- */
-function printFolder(data = "") {
-   if (data.length) {
-      $("#folders").append(data)
-   } else {
-      $("#folders").html("").append(`<div class="alert alert-warning m-2 p-2" role="alert">Empty folder</div>`)
-   }
-}
-/**
- * Print file card into main view
- * @param {*String} data -> File card
- */
-function printFile(data) {
-   if (data.length)
-      $("#files").append(data)
-   else
-      $("#files").append("")
-
-}
-
 $("#folders").on("dblclick", "div.file", function (e) {
    $opened = $(".open").last().parent()
    let id = $(this).attr("data-id")
