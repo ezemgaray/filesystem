@@ -3,11 +3,11 @@ let timeOut = false
 
 if (document.location.search) {
    let param = (document.location.search).split("=").pop()
-   if(param == "trash/"){
+   if (param == "trash/") {
       currentPath = param
    }
-      updateMenu(param)
-      sendRequestFiles()
+   updateMenu(param)
+   sendRequestFiles()
 
 } else {
    updateMenu()
@@ -111,27 +111,35 @@ function sendRequestFiles() {
  * @param {*String} uri -> folder path
  */
 function printBreadcrumb(uri) {
-   if (uri == "search") {
-      $("#breadcrumb").css("background-color", "#d4edda").html(`Results for: <b>"${$("#search").val()}"</b>`)
-   } else if (uri && uri != "search") {
-      $("#breadcrumb").removeAttr("style")
-      let arrUri = uri.split("/")
-      arrUri.pop()
-      let link = ""
-      $(arrUri).each(function (key, value) {
-         link += value + "/"
-         if ((key + 1) < arrUri.length)
-            arrUri[key] = `<a href="?root=${link}">${value}</a> / `
-         else
-            arrUri[key] = `<span>${value}</span> / `
+   console.log(uri);
+   switch (uri) {
+      case undefined:
+         $("#breadcrumb").text(" ")
+         newFileFolderButtons()
+         break;
+      case "search":
+         $("#breadcrumb").css("background-color", "#d4edda").html(`Results for: <b>"${$("#search").val()}"</b>`)
+         break;
+      case "search/":
+         $("#breadcrumb").css("background-color", "#d4edda").html(`trash/`)
+         break;
+      default:
+         $("#breadcrumb").removeAttr("style")
+         let arrUri = uri.split("/")
+         arrUri.pop()
+         let link = ""
+         $(arrUri).each(function (key, value) {
+            link += value + "/"
+            if ((key + 1) < arrUri.length)
+               arrUri[key] = `<a href="?root=${link}">${value}</a> / `
+            else
+               arrUri[key] = `<span>${value}</span> / `
 
-      })
-      $("#breadcrumb").html(arrUri.join(""))
-      newFileFolderButtons(uri)
+         })
+         $("#breadcrumb").html(arrUri.join(""))
+         newFileFolderButtons(uri)
+         break;
 
-   } else {
-      $("#breadcrumb").text(" ")
-      newFileFolderButtons()
    }
 }
 
@@ -182,6 +190,7 @@ function showInfo(path) {
  * @param {*String} uri 
  */
 function newFileFolderButtons(uri) {
+   console.log(uri);
    if (!$("#add-ff").is(':empty') && uri) {
       $("#add-ff").html(`
          <a href="#" class="m-1 add-btn add-folder" data-toggle="tooltip" data-placement="top" title="Add Folder">
@@ -193,7 +202,7 @@ function newFileFolderButtons(uri) {
          </label>
       `)
       $('.add-btn').tooltip()
-   } else {
+   } else if(uri == ""){
       $("#add-ff").html(" ")
       $("#folders").html(`<div class="alert alert-warning m-2 p-2" role="alert">Sorry, you don't have access to other directories  <i class="fa fa-user-lock"></i></div>`)
       $("#folders-count").text("0")
