@@ -37,7 +37,9 @@ if (isset($_POST["path"])) {
       case "png":
       case "gif":
    ?>
-         <div class="mt-2 mb-2 pt-2 pb-2 border-bottom">
+         <!-- <input type="checkbox" id="expand" class="d-none"> -->
+         <div class="mt-2 mb-2 pt-2 pb-2 border-bottom media">
+            <!-- <label for="expand" class="media-expand"><i class="fa fa-expand-arrows-alt"></i></label> -->
             <img src="<?php echo $path ?>" alt="<?php echo $name ?>" class="media-preview">
          </div>
       <?php
@@ -51,8 +53,9 @@ if (isset($_POST["path"])) {
          break;
       case "mp4":
       ?>
-
-         <div class="mt-2 mb-2 pt-2 pb-2 border-bottom">
+         <!-- <input type="checkbox" id="expand" class="d-none"> -->
+         <div class="mt-2 mb-2 pt-2 pb-2 border-bottom media">
+            <!-- <label for="expand" class="media-expand"><i class="fa fa-expand-arrows-alt"></i></label> -->
             <video src="<?php echo $path ?>" controls class="media-preview"></video>
          </div>
 <?php
