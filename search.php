@@ -45,11 +45,11 @@ function search($url, &$files, &$folders, $search)
          if($_POST["root"] == "trash/"){
             $item = findItem($file);
             if (is_file($url . $file)) {
-               $files .= '<div class="border p-2 m-2 rounded file trash" tabindex="0" data-path="' . $url . $file . '" data-id="' . $item["id"] . '" data-ext="' . pathinfo(($url . $file), PATHINFO_EXTENSION) . '">'
+               $files .= '<div class="border p-2 m-2 rounded in-trash" tabindex="0" data-path="' . $url . $file . '" data-id="' . $item["id"] . '" data-ext="' . pathinfo(($url . $file), PATHINFO_EXTENSION) . '">'
                . '<i class="fa ' . getIcon(($url . $file)) . '"></i><p>' . $item["name"] . '</p>'
                . '</div>';
             } else if (is_dir($url . $file . "/")) {
-               $folders .= '<div class="border p-2 m-2 rounded file trash" tabindex="0" data-path="' . $url . $file . '" data-id="' . $item["id"] . '" data-ext="folder">'
+               $folders .= '<div class="border p-2 m-2 rounded in-trash" tabindex="0" data-path="' . $url . $file . '" data-id="' . $item["id"] . '" data-ext="folder">'
                . '<i class="fa fa-folder"></i><p>' . $item["name"] . '</p>'
                . '</div>';
             }

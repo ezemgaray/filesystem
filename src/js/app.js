@@ -347,30 +347,29 @@ $("body").on("mouseenter mouseleave", '[data-toggle="tooltip"]', function () {
  * --- CONTEXT MENU ---
  * generates the context menu
  */
-var contextMenu = CtxMenu(".file");
-contextMenu.addItem("Change Name  ", function (e) {
+var contextFile = CtxMenu(".file");
+contextFile.addItem("Change Name  ", function (e) {
    editName(e)
 }, "https://image.flaticon.com/icons/svg/598/598234.svg");
 
-contextMenu.addSeperator();
+contextFile.addSeperator();
 
-contextMenu.addItem("Delete", function (e) {
-   // if (confirm("Are you sure? Delete " + $(e).text() + ($(e).attr("data-ext") == "folder" ? "/" : "." + $(e).attr("data-ext")))) {
-   if ($(e).attr("data-path").includes("trash/"))
-      showToastConfirm("Delete Permanently", `Are you sure?? Delete "${$(e).text().trim()}"`, function (confirm) {
-         if (confirm) {
-            controller("delete", e)
-         }
-      })
-   else
-      showToastConfirm("Move to Trash", `Are you sure?? Move to trash "${$(e).text().trim()}"`, function (confirm) {
-         if (confirm) {
-            controller("move-trash", e)
-         }
-      })
+contextFile.addItem("Delete", function (e) {
+   showToastConfirm("Move to Trash", `Are you sure?? Move to trash "${$(e).text().trim()}"`, function (confirm) {
+      if (confirm) {
+         controller("move-trash", e)
+      }
+   })
 }, "https://image.flaticon.com/icons/svg/60/60761.svg");
 
-
+var contextFileTrash = CtxMenu(".in-trash");
+contextFileTrash.addItem("Delete", function (e) {
+   showToastConfirm("Delete Permanently", `Are you sure?? Delete "${$(e).text().trim()}"`, function (confirm) {
+      if (confirm) {
+         controller("delete", e)
+      }
+   })
+}, "https://image.flaticon.com/icons/svg/60/60761.svg");
 
 // ----- -------- ------ //
 // ----- REQUESTS ------ //
