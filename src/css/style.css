@@ -237,7 +237,6 @@ body{
 /*---------------------- FILE/TRASH CARD -------------------------*/
 .file,
 .in-trash{
-   position: relative;
    cursor: pointer;
    text-align: center;
    width: 120px;
@@ -245,7 +244,6 @@ body{
 .file:hover, 
 .file:focus,
 .in-trash:hover, .in-trash:focus {
-   position: relative;
    background-color: rgb(57, 205, 255);
    color: #fff;
    outline: none;
@@ -274,7 +272,10 @@ body{
 .file:focus p{
    background-color: inherit;
    -webkit-line-clamp: 10;
-
+}
+.file input{
+   width: 100px;
+   margin-top: 8px;
 }
 /*---------------------- BREADCRUMB -------------------------*/
 .bread-crumb{
@@ -413,6 +414,7 @@ label.add-btn{
    top: 15px;
    left: 50%;
    background-color: rgba(0,0,0,.3);
+   z-index: 999;
    transform: translateX(-50%);
    -webkit-transform: translateX(-50%);
    -moz-transform: translateX(-50%);

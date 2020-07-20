@@ -181,9 +181,9 @@ function folderMessage(message) {
  */
 $("#add-ff").on("click", "a.add-btn.add-folder", function (e) {
    $("#folders")
-      .append($('<div class="border p-2 m-2 rounded"></div>')
+      .append($('<div class="border p-2 m-2 rounded file"></div>')
          .append($('<p> <i class="fa fa-folder mr-2"></i></p>')
-            .append($('<input type="text" id="new-folder" class="new-folder" data-toggle="tooltip" data-placement="top" title="Enter to save. Click outside the input to cancel">'))
+            .append($('<input type="text" id="new-folder" class="new-folder" data-toggle="tooltip" data-placement="bottom" title="Enter to save. Click outside the input to cancel">'))
          )
       )
    $("#new-folder").focus()
@@ -309,13 +309,14 @@ function openFolders(arrayPath) {
  * if it loses focus it is canceled
  */
 function editName(elem) {
+   let innerElem = $(elem).html()
    let icon = $(elem).find("i")
    let name = $(elem).text()
    let extension = $(elem).attr("data-ext") == "folder" ? "" : "." + $(elem).attr("data-ext")
    let fullName = (name + extension).trim()
    $(elem).first().text("")
    $(elem).append($(`<p></p>`).append(icon)
-      .append($('<input type="text" id="rename-folder" class="new-folder" data-toggle="tooltip" data-placement="top" title="Enter to save. Click outside the input to cancel">')).append(" " + extension))
+      .append($('<input type="text" id="rename-folder" class="new-folder" data-toggle="tooltip" data-placement="bottom" title="Enter to save. Click outside the input to cancel">')).append(" " + extension))
    $("#rename-folder").focus()
    $('#rename-folder').tooltip('show')
    $("#rename-folder").keyup(function (e) {
@@ -331,7 +332,7 @@ function editName(elem) {
    })
    $("#rename-folder").blur(function () {
       $('.tooltip').tooltip('hide')
-      $(this).parent().parent().html("").append($(`<p></p>`).append(icon).append(name))
+      $(elem).html(innerElem)
    })
 }
 
