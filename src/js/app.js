@@ -265,7 +265,6 @@ function showToastConfirm(subject, message, handler) {
    }, 1000);
 
    $("#confirm-yes").click(function () {
-      console.log("im yes");
       clearInterval(interval)
       $('#toast-confirm').html("")
       handler(true)

@@ -129,8 +129,13 @@ function removeFromTrashJson(array $toRemove)
 
 function deleteElement($dir)
 {
+   $elem = explode("/", $dir);
+   $elem = end($elem);
+   $elem = findItem($elem);
+
    if(is_file($dir)){
       if(@unlink($dir)){
+         removeFromTrashJson($elem);
          echo json_encode([
             "type" => "success",
             "thumb" => "thumbs-up",
@@ -150,6 +155,8 @@ function deleteElement($dir)
    }
    if (!$dh = @opendir($dir)){
       if(@rmdir($dir)){
+         removeFromTrashJson($elem);
+
          echo json_encode([
             "type" => "success",
             "thumb" => "thumbs-up",
@@ -175,6 +182,8 @@ function deleteElement($dir)
    }
    closedir($dh);
    if(@rmdir($dir)){
+      removeFromTrashJson($elem);
+
       echo json_encode([
          "type" => "success",
          "thumb" => "thumbs-up",
