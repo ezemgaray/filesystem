@@ -23,11 +23,11 @@ function search($url, &$files, &$folders, $search)
          if (strripos($file, $search) >= 0 && is_int(strripos($file, $search))) {
             if (is_file($url . $file)) {
                $files .= '<div class="border p-2 m-2 rounded file" tabindex="0" data-path="' . $url . $file . '" data-id="' . filectime($url . $file) . '" data-ext="' . pathinfo(($url . $file), PATHINFO_EXTENSION) . '">'
-                  . '<p> <i class="fa ' . getIcon(($url . $file)) . ' mr-2"></i>' . pathinfo(($url . $file), PATHINFO_FILENAME) . '</p>'
+                  . '<i class="fa ' . getIcon(($url . $file)) . '"></i><p>' . pathinfo(($url . $file), PATHINFO_FILENAME) . '</p>'
                   . '</div>';
             } else if (is_dir($url . $file . "/")) {
                $folders .= '<div class="border p-2 m-2 rounded file" tabindex="0" data-path="' . $url . $file . '" data-id="' . filectime($url . $file) . '" data-ext="folder">'
-                  . '<p> <i class="fa fa-folder mr-2"></i>' . $file . '</p>'
+                  . '<i class="fa fa-folder"></i><p>' . $file . '</p>'
                   . '</div>';
                $moreContent = scandir($url . $file . "/");
                if (count($moreContent)) {
@@ -46,21 +46,21 @@ function search($url, &$files, &$folders, $search)
             $item = findItem($file);
             if (is_file($url . $file)) {
                $files .= '<div class="border p-2 m-2 rounded file trash" tabindex="0" data-path="' . $url . $file . '" data-id="' . $item["id"] . '" data-ext="' . pathinfo(($url . $file), PATHINFO_EXTENSION) . '">'
-               . '<p> <i class="fa ' . getIcon(($url . $file)) . ' mr-2"></i>' . $item["name"] . '</p>'
+               . '<i class="fa ' . getIcon(($url . $file)) . '"></i><p>' . $item["name"] . '</p>'
                . '</div>';
             } else if (is_dir($url . $file . "/")) {
                $folders .= '<div class="border p-2 m-2 rounded file trash" tabindex="0" data-path="' . $url . $file . '" data-id="' . $item["id"] . '" data-ext="folder">'
-               . '<p> <i class="fa fa-folder mr-2"></i>' . $item["name"] . '</p>'
+               . '<i class="fa fa-folder"></i><p>' . $item["name"] . '</p>'
                . '</div>';
             }
          }else{
             if (is_file($url . $file)) {
-               $files .= '<div class="border p-2 m-2 rounded file" tabindex="0" data-path="' . $url . $file . '" data-id="' . filectime($url . $file) . '" data-ext="' . pathinfo(($url . $file), PATHINFO_EXTENSION) . '">'
-               . '<p> <i class="fa ' . getIcon(($url . $file)) . ' mr-2"></i>' . pathinfo(($url . $file), PATHINFO_FILENAME) . '</p>'
+               $files .= '<div class="border p-2 m-2 rounded file text-center" tabindex="0" data-path="' . $url . $file . '" data-id="' . filectime($url . $file) . '" data-ext="' . pathinfo(($url . $file), PATHINFO_EXTENSION) . '">'
+               . '<i class="fa ' . getIcon(($url . $file)) . '"></i><p>' . pathinfo(($url . $file), PATHINFO_FILENAME) . '</p>'
                . '</div>';
             } else if (is_dir($url . $file . "/")) {
                $folders .= '<div class="border p-2 m-2 rounded file" tabindex="0" data-path="' . $url . $file . '" data-id="' . filectime($url . $file) . '" data-ext="folder">'
-               . '<p> <i class="fa fa-folder mr-2"></i>' . $file . '</p>'
+               . '<i class="fa fa-folder"></i><p>' . $file . '</p>'
                . '</div>';
             }
          }

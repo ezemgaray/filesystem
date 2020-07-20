@@ -517,7 +517,6 @@ function runSuccess(action, data) {
       case "update-menu":
          data = JSON.parse(data)
          $("#menu-list").html("").append(data.menu)
-         // let arrayPath = currentPath.split("/")
          let arrayPath = currentPath ? currentPath.split("/") : "root/".split("/")
 
          arrayPath.pop()
