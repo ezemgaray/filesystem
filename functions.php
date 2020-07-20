@@ -127,9 +127,6 @@ function removeFromTrashJson(array $toRemove)
    }
 }
 
-
-
-
 function deleteElement($dir)
 {
    if(is_file($dir)){
@@ -138,7 +135,7 @@ function deleteElement($dir)
             "type" => "success",
             "thumb" => "thumbs-up",
             "subject" => "Delete",
-            "message" => "File \"". $dir ."\" has been removed. From the trash you can delete the file permanently."
+            "message" => "File \"". $dir ."\" has been removed permanently."
             ]);
          die();
       }else{
@@ -157,7 +154,7 @@ function deleteElement($dir)
             "type" => "success",
             "thumb" => "thumbs-up",
             "subject" => "Delete",
-            "message" => "File \"". $dir ."\" has been removed. From the trash you can delete the file permanently."
+            "message" => "File \"". $dir ."\" has been removed permanently."
             ]);
          die();
       }else{
@@ -182,7 +179,7 @@ function deleteElement($dir)
          "type" => "success",
          "thumb" => "thumbs-up",
          "subject" => "Delete",
-         "message" => "File \"". $dir ."\" has been removed. From the trash you can delete the file permanently."
+         "message" => "File \"". $dir ."\" has been removed permanently."
          ]);
       die();
    }else{

@@ -232,6 +232,55 @@ function showToast(data) {
    })
 }
 
+/**
+ * --- SHOW TOAST CONFIRM ---
+ * Show meesage (succes - ajax)
+ * @param {*Object} data 
+ */
+function showToastConfirm(subject, message, handler) {
+   let toast = `<div class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-delay="15000">
+      <div class="toast-header">
+      <i class="rounded mr-2 fa fa-exclamation-triangle text-danger" ></i>
+      <strong class="mr-auto text-danger">  ${subject} </strong>
+      <span class="float-right mr-2 timer"></span>
+      <button type="button" class="close" data-dismiss="toast" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+      </button></div>
+      <div class="toast-body">
+      <b>${message}</b>
+      <div class="m-2 text-right">
+         <button type="button" class="btn btn-danger btn-sm" id="confirm-yes">YES</button>
+         <button type="button" class="btn btn-success btn-sm" class="close" data-dismiss="toast" aria-label="Close" id="confirm-no">NO</button>
+      </div>
+   </div></div> `
+   $("#toast-confirm").append(toast);
+   $('#toast-confirm .toast').toast('show');
+
+   var start = 15;
+   let interval = setInterval(function () {
+      start--
+      $('.timer').text(start + " Seconds");
+      if (start == 0)
+         clearInterval(interval)
+   }, 1000);
+
+   $("#confirm-yes").click(function () {
+      console.log("im yes");
+      clearInterval(interval)
+      $('#toast-confirm').html("")
+      handler(true)
+   })
+   $('.close').click(function () {
+      clearInterval(interval)
+      handler(false)
+   })
+   $('.toast').on('hidden.bs.toast', function () {
+      $(this).remove()
+      clearInterval(interval)
+      handler(false)
+   })
+}
+
 
 /**
  * Open current folder
@@ -306,12 +355,19 @@ contextMenu.addItem("Change Name  ", function (e) {
 contextMenu.addSeperator();
 
 contextMenu.addItem("Delete", function (e) {
-   if (confirm("Are you sure? Delete " + $(e).text() + ($(e).attr("data-ext") == "folder" ? "/" : "." + $(e).attr("data-ext")))) {
-      if ($(e).attr("data-path").includes("trash/"))
-         controller("delete", e)
-      else
-         controller("move-trash", e)
-   }
+   // if (confirm("Are you sure? Delete " + $(e).text() + ($(e).attr("data-ext") == "folder" ? "/" : "." + $(e).attr("data-ext")))) {
+   if ($(e).attr("data-path").includes("trash/"))
+      showToastConfirm("Delete Permanently", `Are you sure?? Delete "${$(e).text().trim()}"`, function (confirm) {
+         if (confirm) {
+            controller("delete", e)
+         }
+      })
+   else
+      showToastConfirm("Move to Trash", `Are you sure?? Move to trash "${$(e).text().trim()}"`, function (confirm) {
+         if (confirm) {
+            controller("move-trash", e)
+         }
+      })
 }, "https://image.flaticon.com/icons/svg/60/60761.svg");
 
 

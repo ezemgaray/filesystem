@@ -389,6 +389,17 @@ label.add-btn{
    height: auto;
 }
 
+.toast-confirm{
+   position: absolute;
+   top: 15px;
+   left: 50%;
+   background-color: rgba(0,0,0,.3);
+   transform: translateX(-50%);
+   -webkit-transform: translateX(-50%);
+   -moz-transform: translateX(-50%);
+   -ms-transform: translateX(-50%);
+   -o-transform: translateX(-50%);
+}
 /*---------------------- SEARCH -------------------------*/
 
 .search-var{
