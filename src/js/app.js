@@ -145,7 +145,7 @@ function getOpenFilePath(forInfo = "") {
 }
 
 /* --- SHOW FILE INFO --- */
-$("#folders, #files").on("click", "div.file, div.in-search", function (e) {
+$("#folders, #files").on("click", "div.file, div.in-search, div.in-trash", function (e) {
    controller("show-info", $(this).attr("data-path"))
 })
 
@@ -439,9 +439,9 @@ function controller(action, extraData = null) {
           * --- CREATE FOLDER ---
           * Create folder - Set data with input value
           */
-         url = "actions/create-folder.php"
+         url = "create-folder.php"
          data = {
-            "path": "../" + currentPath + $("#new-folder").val().trim() + "/",
+            "path": currentPath + $("#new-folder").val().trim() + "/",
             "name": $("#new-folder").val().trim()
          }
          runAction(action, url, data)
@@ -453,9 +453,9 @@ function controller(action, extraData = null) {
           * Change name (folder/file)
           * @extraData {*Obkect} oldName, newName
           */
-         url = "actions/change-name.php"
+         url = "change-name.php"
          data = {
-            "path": "../" + currentPath,
+            "path": currentPath,
             "old-name": extraData.oldName,
             "new-name": extraData.newName
          }
@@ -472,7 +472,7 @@ function controller(action, extraData = null) {
          let fullName = (name + extension).trim()
          url = "move-trash.php"
          data = {
-            "path": "../" + currentPath,
+            "path": currentPath,
             "name": name,
             "full-name": fullName,
             "extension": extension
@@ -485,9 +485,9 @@ function controller(action, extraData = null) {
           * Move element to trash
           * @extraData {*HTML Element} elem 
           */
-         url = "actions/delete.php"
+         url = "delete.php"
          data = {
-            "path": "../" + $(extraData).attr("data-path")
+            "path": $(extraData).attr("data-path")
          }
          runAction(action, url, data)
          break
@@ -623,10 +623,10 @@ $("#search").keyup(function () {
 function addFile(path) {
    let data = new FormData()
    data.append('file', $('#add-new-file')[0].files[0]);
-   data.append("path", "../" + path)
+   data.append("path", path)
    $.ajax({
       type: "POST",
-      url: "actions/add-file.php",
+      url: "add-file.php",
       cache: false,
       contentType: false,
       processData: false,
