@@ -441,7 +441,7 @@ function controller(action, extraData = null) {
           */
          url = "actions/create-folder.php"
          data = {
-            "path": currentPath + $("#new-folder").val().trim() + "/",
+            "path": "../" + currentPath + $("#new-folder").val().trim() + "/",
             "name": $("#new-folder").val().trim()
          }
          runAction(action, url, data)
@@ -455,7 +455,7 @@ function controller(action, extraData = null) {
           */
          url = "actions/change-name.php"
          data = {
-            "path": currentPath,
+            "path": "../" + currentPath,
             "old-name": extraData.oldName,
             "new-name": extraData.newName
          }
@@ -472,7 +472,7 @@ function controller(action, extraData = null) {
          let fullName = (name + extension).trim()
          url = "move-trash.php"
          data = {
-            "path": currentPath,
+            "path": "../" + currentPath,
             "name": name,
             "full-name": fullName,
             "extension": extension
@@ -485,9 +485,9 @@ function controller(action, extraData = null) {
           * Move element to trash
           * @extraData {*HTML Element} elem 
           */
-         url = "delete.php"
+         url = "actions/delete.php"
          data = {
-            "path": $(extraData).attr("data-path")
+            "path": "../" + $(extraData).attr("data-path")
          }
          runAction(action, url, data)
          break
@@ -623,7 +623,7 @@ $("#search").keyup(function () {
 function addFile(path) {
    let data = new FormData()
    data.append('file', $('#add-new-file')[0].files[0]);
-   data.append("path", path)
+   data.append("path", "../" + path)
    $.ajax({
       type: "POST",
       url: "actions/add-file.php",

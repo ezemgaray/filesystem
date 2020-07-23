@@ -5,7 +5,7 @@ if (isset($_POST["path"]) && isset($_FILES["file"])) {
    $fileError = $_FILES['file']['error'];
    $fileContent = file_get_contents($_FILES['file']['tmp_name']);
 
-   if(file_exists("../".$_POST["path"].$fileName)){
+   if(file_exists($_POST["path"].$fileName)){
       echo json_encode([
          "type" => "danger",
          "thumb" => "thumbs-down",
@@ -15,7 +15,7 @@ if (isset($_POST["path"]) && isset($_FILES["file"])) {
       die();
    }
 
-   if ($fileError == UPLOAD_ERR_OK && @move_uploaded_file($_FILES['file']['tmp_name'], "../".$_POST["path"].$fileName)) {
+   if ($fileError == UPLOAD_ERR_OK && @move_uploaded_file($_FILES['file']['tmp_name'], $_POST["path"].$fileName)) {
       echo json_encode([
          "type" => "success",
          "thumb" => "thumbs-up",

@@ -1,7 +1,7 @@
 <?php
 
 if (isset($_POST["path"])) {
-   $path = "../".$_POST["path"];
+   $path = $_POST["path"];
 
    if(trim($_POST["new-name"]) == ""){
       echo json_encode([
