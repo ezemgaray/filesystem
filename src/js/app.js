@@ -453,7 +453,7 @@ function controller(action, extraData = null) {
           * Change name (folder/file)
           * @extraData {*Obkect} oldName, newName
           */
-         url = "change-name.php"
+         url = "actions/change-name.php"
          data = {
             "path": currentPath,
             "old-name": extraData.oldName,
