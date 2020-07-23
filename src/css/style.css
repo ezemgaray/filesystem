@@ -239,7 +239,8 @@ body {
 
 /*---------------------- FILE/TRASH CARD -------------------------*/
 .file,
-.in-trash {
+.in-trash,
+.in-search {
    cursor: pointer;
    text-align: center;
    width: 120px;
@@ -248,21 +249,33 @@ body {
 .file:hover,
 .file:focus,
 .in-trash:hover,
-.in-trash:focus {
+.in-trash:focus,
+.in-search:hover,
+.in-search:focus {
    background-color: rgb(57, 205, 255);
    color: #fff;
    outline: none;
    box-shadow: 0 0 6px rgba(0, 0, 0, .3);
 }
+/* .file:hover div,
+.file:focus div,
+.in-trash:hover div,
+.in-trash:focus div{
+   position: absolute;
+   background-color: inherit;
+} */
 
 .file i,
-.in-trash i {
+.in-trash i,
+.in-search i {
    font-size: 40px;
    color: rgb(57, 205, 255);
 }
 
 .file:hover i,
 .file:focus i,
+.in-search:hover i,
+.in-search:focus i,
 .in-trash:hover i,
 .in-trash:focus i {
    font-size: 40px;
@@ -270,6 +283,7 @@ body {
 }
 
 .file p,
+.in-search p,
 .in-trash p {
    width: 100px;
    padding-bottom: 5px;
@@ -280,6 +294,7 @@ body {
 }
 
 .file:focus p,
+.in-search:focus p,
 .in-trash:focus p {
    background-color: inherit;
    -webkit-line-clamp: 10;

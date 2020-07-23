@@ -122,6 +122,12 @@ $("#folders").on("dblclick", "div.file", function (e) {
    $($opened.find('[data-id="' + id + '"]')).click()
 })
 
+$("#folders").on("dblclick", "div.in-search", function (e) {
+   $opened = $(".open").last().parent()
+   let arrayPath = $(this).attr("data-path").split("/")
+   openFolders(arrayPath)
+})
+
 /**
  * Return the path of the open file.
  * To get the path of the file or folder that 
@@ -139,7 +145,7 @@ function getOpenFilePath(forInfo = "") {
 }
 
 /* --- SHOW FILE INFO --- */
-$("#folders, #files").on("click", "div.file", function (e) {
+$("#folders, #files").on("click", "div.file, div.in-search", function (e) {
    controller("show-info", $(this).attr("data-path"))
 })
 
@@ -289,14 +295,16 @@ function openFolders(arrayPath) {
    let aux
    $(arrayPath).each(function (key, name) {
       if (key == 0) {
-         if ($('#menu-list [data-name="' + name + '"]')) {
-            $('#menu-list [data-name="' + name + '"]').click()
-            aux = $('#menu-list [data-name="' + name + '"]')
+         let checkOpen = $('#menu-list [data-name="' + name + '"]')
+         if (checkOpen && !checkOpen.hasClass("open")) {
+            checkOpen.click()
          }
+            aux = $('#menu-list [data-name="' + name + '"]')
       } else {
 
-         if ($('[data-id="' + aux[0].dataset.id + '"] ~ div > ul > li > a[data-name="' + name + '"]')) {
-            $('[data-id="' + aux[0].dataset.id + '"]  ~ div > ul > li > a[data-name="' + name + '"]').click()
+         let checkOpen = $('[data-id="' + aux[0].dataset.id + '"] ~ div > ul > li > a[data-name="' + name + '"]') 
+         if (checkOpen && !checkOpen.hasClass("open")) {
+            checkOpen.click()
          }
          aux = $('[data-id="' + aux[0].dataset.id + '"]  ~ div  a[data-name="' + name + '"]')
       }

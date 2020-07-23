@@ -22,11 +22,11 @@ function search($url, &$files, &$folders, $search)
       if ($search) {
          if (strripos($file, $search) >= 0 && is_int(strripos($file, $search))) {
             if (is_file($url . $file)) {
-               $files .= '<div class="border p-2 m-2 rounded file" tabindex="0" data-path="' . $url . $file . '" data-id="' . filectime($url . $file) . '" data-ext="' . pathinfo(($url . $file), PATHINFO_EXTENSION) . '">'
+               $files .= '<div class="border p-2 m-2 rounded in-search" tabindex="0" data-path="' . $url . $file . '" data-id="' . filectime($url . $file) . '" data-ext="' . pathinfo(($url . $file), PATHINFO_EXTENSION) . '">'
                   . '<i class="fa ' . getIcon(($url . $file)) . '"></i><p>' . pathinfo(($url . $file), PATHINFO_FILENAME) . '</p>'
                   . '</div>';
             } else if (is_dir($url . $file . "/")) {
-               $folders .= '<div class="border p-2 m-2 rounded file" tabindex="0" data-path="' . $url . $file . '" data-id="' . filectime($url . $file) . '" data-ext="folder">'
+               $folders .= '<div class="border p-2 m-2 rounded in-search" tabindex="0" data-path="' . $url . $file . '" data-id="' . filectime($url . $file) . '" data-ext="folder">'
                   . '<i class="fa fa-folder"></i><p>' . $file . '</p>'
                   . '</div>';
                $moreContent = scandir($url . $file . "/");
