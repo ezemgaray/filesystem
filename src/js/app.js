@@ -626,7 +626,7 @@ function addFile(path) {
    data.append("path", path)
    $.ajax({
       type: "POST",
-      url: "add-file.php",
+      url: "actions/add-file.php",
       cache: false,
       contentType: false,
       processData: false,
