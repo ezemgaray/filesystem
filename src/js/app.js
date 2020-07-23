@@ -439,7 +439,7 @@ function controller(action, extraData = null) {
           * --- CREATE FOLDER ---
           * Create folder - Set data with input value
           */
-         url = "create-folder.php"
+         url = "actions/create-folder.php"
          data = {
             "path": currentPath + $("#new-folder").val().trim() + "/",
             "name": $("#new-folder").val().trim()
