@@ -511,7 +511,6 @@ function runAction(action, url, data) {
 function runSuccess(action, data) {
    switch (action) {
       case "get-files":
-         console.log(data);
          data = JSON.parse(data)
          $("#folders").html("").html(data.folders)
          $("#files").html("").html(data.files)
@@ -573,7 +572,6 @@ function runSuccess(action, data) {
          break
 
       case "move-trash":
-         console.log(data);
          data = JSON.parse(data)
          if (data.type == "success") {
             controller("update-menu")
@@ -584,7 +582,6 @@ function runSuccess(action, data) {
          break
 
       case "delete":
-         console.log(data);
          data = JSON.parse(data)
          if (data.type == "success") {
             controller("update-menu")
