@@ -41,14 +41,14 @@ if (isset($_POST["path"])) {
       case "gif":
    ?>
          <div class="mt-2 mb-2 pt-2 pb-2 border-bottom">
-            <img src="<?php echo $path ?>" alt="<?php echo $name ?>" class="media-preview">
+            <img src="<?php echo $realPath ?>" alt="<?php echo $name ?>" class="media-preview">
          </div>
       <?php
          break;
       case "mp3":
       ?>
          <div class="mt-2 mb-2 pt-2 pb-2 border-bottom">
-            <audio src="<?php echo $path ?>" controls class="media-preview"></audio>
+            <audio src="<?php echo $realPath ?>" controls class="media-preview"></audio>
          </div>
       <?php
          break;
@@ -56,7 +56,7 @@ if (isset($_POST["path"])) {
       ?>
 
          <div class="mt-2 mb-2 pt-2 pb-2 border-bottom">
-            <video src="<?php echo $path ?>" controls class="media-preview"></video>
+            <video src="<?php echo $realPath ?>" controls class="media-preview"></video>
          </div>
 <?php
 
