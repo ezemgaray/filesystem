@@ -19,7 +19,7 @@ if (isset($_POST["path"])) {
       <small class="d-block"><b>Modified:</b> <?php echo date("l d, M Y H:i", $item["modified"]); ?></small>
       <small class="d-block"><b>Moved to trash:</b> <?php echo date("l d, M Y H:i", $item["trash"]); ?></small>
       <small class="d-block"><b>Extension:</b> <?php echo is_dir($path) ? "Folder" : "." . pathinfo($path, PATHINFO_EXTENSION); ?></small>
-      <small class="d-block"><b>Path:</b> <?php echo $realPath ?></small>
+      <small class="d-block"><b>Path:</b> <?php echo "trash/" . $item["name"] ?></small>
       <small class="d-block"><b>Old Path:</b> <?php echo $item["old_path"]; ?></small>
       <?php
       if (is_dir($path)) {
