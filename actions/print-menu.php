@@ -7,11 +7,11 @@ if(isset($_POST["from"])){
  */
 $html = "";
 function printMenu($target, &$html = ""){
-   if(file_exists("trash/")){
-      $trashLen = count(scandir("trash/"))-2;
+   if(file_exists("../trash/")){
+      $trashLen = count(scandir("../trash/"))-2;
    }else{
-      mkdir(("trash/"));
-      $trashLen = count(scandir("trash/"))-2;
+      mkdir(("../trash/"));
+      $trashLen = count(scandir("../trash/"))-2;
    }
    if (is_dir($target)) {
       $files = str_replace("\\", "/", glob($target . '*', GLOB_MARK)); //GLOB_MARK adds a slash to directories returned

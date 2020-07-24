@@ -156,6 +156,7 @@ $("#folders, #files").on("click", "div.file, div.in-search, div.in-trash", funct
  */
 function newFileFolderButtons(uri) {
    if (!$("#add-ff").is(':empty') && uri) {
+      if(uri == "trash/") return
       $("#add-ff").html(`
          <a href="#" class="m-1 add-btn add-folder" data-toggle="tooltip" data-placement="top" title="Add Folder">
             <i class="fa fa-folder-plus button"></i>
@@ -396,9 +397,9 @@ function controller(action, extraData = null) {
          $("#files").html("")
          if (currentPath && (currentPath.includes("root/") || currentPath.includes("trash/"))) {
             printBreadcrumb(currentPath)
-            url = "search.php"
+            url = "actions/search.php"
             data = {
-               "root": currentPath
+               "root": "../" + currentPath
             }
             runAction(action, url, data)
 
@@ -415,9 +416,9 @@ function controller(action, extraData = null) {
          /**
           * --- UPDATE MENU ---
           */
-         url = "print-menu.php"
+         url = "actions/print-menu.php"
          data = {
-            "from": "root/"
+            "from": "../root/"
          }
          runAction(action, url, data)
          break
@@ -427,9 +428,9 @@ function controller(action, extraData = null) {
           * Show info (folder/file)
           * @extraData {*String} Path from data-path html attribute
           */
-         url = extraData.includes("trash") ? "show-trash-info.php" : "show-info.php"
+         url = extraData.includes("trash") ? "actions/show-trash-info.php" : "actions/show-info.php"
          data = {
-            "path": extraData
+            "path": "../" + extraData
          }
          runAction(action, url, data)
          break
@@ -439,9 +440,9 @@ function controller(action, extraData = null) {
           * --- CREATE FOLDER ---
           * Create folder - Set data with input value
           */
-         url = "create-folder.php"
+         url = "actions/create-folder.php"
          data = {
-            "path": currentPath + $("#new-folder").val().trim() + "/",
+            "path": "../" + currentPath + $("#new-folder").val().trim() + "/",
             "name": $("#new-folder").val().trim()
          }
          runAction(action, url, data)
@@ -453,9 +454,9 @@ function controller(action, extraData = null) {
           * Change name (folder/file)
           * @extraData {*Obkect} oldName, newName
           */
-         url = "change-name.php"
+         url = "actions/change-name.php"
          data = {
-            "path": currentPath,
+            "path": "../" + currentPath,
             "old-name": extraData.oldName,
             "new-name": extraData.newName
          }
@@ -470,7 +471,7 @@ function controller(action, extraData = null) {
          let name = $(extraData).text().trim()
          let extension = $(extraData).attr("data-ext") == "folder" ? "" : "." + $(extraData).attr("data-ext")
          let fullName = (name + extension).trim()
-         url = "move-trash.php"
+         url = "actions/move-trash.php"
          data = {
             "path": currentPath,
             "name": name,
@@ -485,9 +486,10 @@ function controller(action, extraData = null) {
           * Move element to trash
           * @extraData {*HTML Element} elem 
           */
-         url = "delete.php"
+         url = "actions/delete.php"
          data = {
-            "path": $(extraData).attr("data-path")
+            "path": "../" + $(extraData).attr("data-path"),
+            "name": $(extraData).text()
          }
          runAction(action, url, data)
          break
@@ -509,6 +511,7 @@ function runAction(action, url, data) {
 function runSuccess(action, data) {
    switch (action) {
       case "get-files":
+         console.log(data);
          data = JSON.parse(data)
          $("#folders").html("").html(data.folders)
          $("#files").html("").html(data.files)
@@ -570,6 +573,7 @@ function runSuccess(action, data) {
          break
 
       case "move-trash":
+         console.log(data);
          data = JSON.parse(data)
          if (data.type == "success") {
             controller("update-menu")
@@ -580,6 +584,7 @@ function runSuccess(action, data) {
          break
 
       case "delete":
+         console.log(data);
          data = JSON.parse(data)
          if (data.type == "success") {
             controller("update-menu")
@@ -597,10 +602,10 @@ $("#search").keyup(function () {
    let value = $("#search").val()
    $.ajax({
       type: "POST",
-      url: "search.php",
+      url: "actions/search.php",
       data: {
          "search": value,
-         "root": "root/"
+         "root": "../root/"
       },
       success: function (data) {
          data = JSON.parse(data)
@@ -623,10 +628,10 @@ $("#search").keyup(function () {
 function addFile(path) {
    let data = new FormData()
    data.append('file', $('#add-new-file')[0].files[0]);
-   data.append("path", path)
+   data.append("path", "../" + path)
    $.ajax({
       type: "POST",
-      url: "add-file.php",
+      url: "actions/add-file.php",
       cache: false,
       contentType: false,
       processData: false,

@@ -1,5 +1,5 @@
 <?php
-require("functions.php");
+require("actions/functions.php");
 ?>
 <!DOCTYPE html>
 <html lang="en">

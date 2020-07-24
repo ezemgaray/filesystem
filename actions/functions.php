@@ -66,9 +66,9 @@ function getSize($path)
 /**
  * Return trash data
  */
-function getTrashData()
+function getTrashData($path)
 {
-   $data = file_get_contents("trash-data/trash.json");
+   $data = file_get_contents($path);
    $arrayData = json_decode($data, true);
    return $arrayData;
 }
@@ -77,9 +77,9 @@ function getTrashData()
  * Find Object into trash.json
  * @param [*String or Numbre] -> id
  */
-function findItem($id)
+function findItem($id, $path)
 {
-   $arrayData = getTrashData();
+   $arrayData = getTrashData($path);
    foreach ($arrayData as $item) {
       if($item["id"] == $id){
          return $item;
@@ -94,16 +94,16 @@ function findItem($id)
  */
 function addToTrashJson(array $item)
 {
-   $data = getTrashData();
+   $data = getTrashData("../trash-data/trash.json");
    if ($data == NULL) $data = [];
    array_push($data, $item);
-   $file = "trash-data/trash-temp.json";
+   $file = "../trash-data/trash-temp.json";
    fopen($file, "w");
    file_put_contents($file, json_encode($data));
-   if (!unlink("trash-data/trash.json")) {
+   if (!unlink("../trash-data/trash.json")) {
       return false;
    } else {
-      rename($file, "trash-data/trash.json");
+      rename($file, "../trash-data/trash.json");
       return true;
    }
 }
@@ -114,15 +114,15 @@ function addToTrashJson(array $item)
  */
 function removeFromTrashJson(array $toRemove)
 {
-   $dataList = getTrashData();
+   $dataList = getTrashData("../trash-data/trash.json");
    unset($dataList[array_search($toRemove, $dataList)]);
-   $file = "trash-data/file-temp.json";
+   $file = "../trash-data/file-temp.json";
    fopen($file, "w");
    file_put_contents($file, json_encode($dataList));
-   if (!unlink("trash-data/trash.json")) {
+   if (!unlink("../trash-data/trash.json")) {
       return false;
    } else {
-      rename($file, "trash-data/trash.json");
+      rename($file, "../trash-data/trash.json");
       return true;
    }
 }
@@ -131,7 +131,7 @@ function deleteElement($dir)
 {
    $elem = explode("/", $dir);
    $elem = end($elem);
-   $elem = findItem($elem);
+   $elem = findItem($elem, "../trash-data/trash.json");
 
    if(is_file($dir)){
       if(@unlink($dir)){
@@ -140,7 +140,7 @@ function deleteElement($dir)
             "type" => "success",
             "thumb" => "thumbs-up",
             "subject" => "Delete",
-            "message" => "File \"". $dir ."\" has been removed permanently."
+            "message" => "File \"". $_POST["name"] ."\" has been removed permanently."
             ]);
          die();
       }else{
@@ -148,12 +148,13 @@ function deleteElement($dir)
             "type" => "danger",
             "thumb" => "thumbs-down",
             "subject" => "Delete",
-            "message" => "Could not delete file \"". $_POST["full-name"] ."\"."
+            "message" => "1 Could not delete file \"". $_POST["name"] ."\"."
             ]);
          die();
       }
    }
    if (!$dh = @opendir($dir)){
+      
       if(@rmdir($dir)){
          removeFromTrashJson($elem);
 
@@ -161,7 +162,7 @@ function deleteElement($dir)
             "type" => "success",
             "thumb" => "thumbs-up",
             "subject" => "Delete",
-            "message" => "File \"". $dir ."\" has been removed permanently."
+            "message" => "File \"". $_POST["name"] ."\" has been removed permanently."
             ]);
          die();
       }else{
@@ -169,7 +170,7 @@ function deleteElement($dir)
             "type" => "danger",
             "thumb" => "thumbs-down",
             "subject" => "Delete",
-            "message" => "Could not delete file \"". $_POST["full-name"] ."\"."
+            "message" => " 2 Could not delete file \"". $_POST["name"] ."\"."
             ]);
          die();
       }
@@ -188,7 +189,7 @@ function deleteElement($dir)
          "type" => "success",
          "thumb" => "thumbs-up",
          "subject" => "Delete",
-         "message" => "File \"". $dir ."\" has been removed permanently."
+         "message" => "File \"". $_POST["name"] ."\" has been removed permanently."
          ]);
       die();
    }else{
@@ -196,7 +197,7 @@ function deleteElement($dir)
          "type" => "danger",
          "thumb" => "thumbs-down",
          "subject" => "Delete",
-         "message" => "Could not delete file \"". $_POST["full-name"] ."\"."
+         "message" => "3 Could not delete file \"". $_POST["name"] ."\"."
          ]);
       die();
    }

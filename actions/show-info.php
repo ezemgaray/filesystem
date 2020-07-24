@@ -2,25 +2,23 @@
 require("functions.php");
 if (isset($_POST["path"])) {
    $path = $_POST["path"];
+   $realPath = str_replace("../", "", $path);
    $arr = explode("/", $path);
-   // $name = end($arr);
-   $item = findItem(end($arr))
+   $name = end($arr);
 ?>
    <div class="d-flex border-bottom">
       <div class="info-icon">
          <i class="fa <?php echo getIcon($path); ?> p-1"></i>
       </div>
       <div>
-         <h4 class="p-1 m-0"><?php echo $item["name"] ?></h4>
+         <h4 class="p-1 m-0"><?php echo $name ?></h4>
       </div>
    </div>
    <div class="mt-2 mb-2 pb-2 pt-2 border-bottom">
-      <small class="d-block"><b>Created:</b> <?php echo date("l d, M Y H:i", $item["created"]) ?></small>
-      <small class="d-block"><b>Modified:</b> <?php echo date("l d, M Y H:i", $item["modified"]); ?></small>
-      <small class="d-block"><b>Moved to trash:</b> <?php echo date("l d, M Y H:i", $item["trash"]); ?></small>
+      <small class="d-block"><b>Created:</b> <?php echo date("l d, M Y H:i", filectime($path)) ?></small>
+      <small class="d-block"><b>Modified:</b> <?php echo date("l d, M Y H:i", filemtime($path)); ?></small>
       <small class="d-block"><b>Extension:</b> <?php echo is_dir($path) ? "Folder" : "." . pathinfo($path, PATHINFO_EXTENSION); ?></small>
-      <small class="d-block"><b>Path:</b> <?php echo $path; ?></small>
-      <small class="d-block"><b>Old Path:</b> <?php echo $item["old_path"]; ?></small>
+      <small class="d-block"><b>Path:</b> <?php echo $realPath; ?></small>
       <?php
       if (is_dir($path)) {
       ?>
@@ -40,23 +38,26 @@ if (isset($_POST["path"])) {
       case "png":
       case "gif":
    ?>
-         <div class="mt-2 mb-2 pt-2 pb-2 border-bottom">
-            <img src="<?php echo $path ?>" alt="<?php echo $name ?>" class="media-preview">
+         <!-- <input type="checkbox" id="expand" class="d-none"> -->
+         <div class="mt-2 mb-2 pt-2 pb-2 border-bottom media">
+            <!-- <label for="expand" class="media-expand"><i class="fa fa-expand-arrows-alt"></i></label> -->
+            <img src="<?php echo $realPath; ?>" alt="<?php echo $name ?>" class="media-preview">
          </div>
       <?php
          break;
       case "mp3":
       ?>
          <div class="mt-2 mb-2 pt-2 pb-2 border-bottom">
-            <audio src="<?php echo $path ?>" controls class="media-preview"></audio>
+            <audio src="<?php echo $realPath; ?>" controls class="media-preview"></audio>
          </div>
       <?php
          break;
       case "mp4":
       ?>
-
-         <div class="mt-2 mb-2 pt-2 pb-2 border-bottom">
-            <video src="<?php echo $path ?>" controls class="media-preview"></video>
+         <!-- <input type="checkbox" id="expand" class="d-none"> -->
+         <div class="mt-2 mb-2 pt-2 pb-2 border-bottom media">
+            <!-- <label for="expand" class="media-expand"><i class="fa fa-expand-arrows-alt"></i></label> -->
+            <video src="<?php echo $realPath; ?>" controls class="media-preview"></video>
          </div>
 <?php
 
