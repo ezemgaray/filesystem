@@ -22,13 +22,15 @@ function search($url, &$files, &$folders, $search)
       if ($search) {
          if (strripos($file, $search) >= 0 && is_int(strripos($file, $search))) {
             if (is_file($url . $file)) {
-               $files .= '<div class="border p-2 m-2 rounded in-search" tabindex="0" data-path="' . $realUrl . $file . '" data-id="' . filectime($url . $file) . '" data-ext="' . pathinfo(($url . $file), PATHINFO_EXTENSION) . '">'
+               $files .= '<div class="m-2 in-search" tabindex="0" data-path="' . $realUrl . $file . '" data-id="' . filectime($url . $file) . '" data-ext="' . pathinfo(($url . $file), PATHINFO_EXTENSION) . '">'
+                  .'<div class="border p-2 rounded text-center">'
                   . '<i class="fa ' . getIcon(($url . $file)) . '"></i><p>' . pathinfo(($url . $file), PATHINFO_FILENAME) . '</p>'
-                  . '</div>';
+                  . '</div></div>';
             } else if (is_dir($url . $file . "/")) {
-               $folders .= '<div class="border p-2 m-2 rounded in-search" tabindex="0" data-path="' . $realUrl . $file . '" data-id="' . filectime($url . $file) . '" data-ext="folder">'
+               $folders .= '<div class="m-2 in-search" tabindex="0" data-path="' . $realUrl . $file . '" data-id="' . filectime($url . $file) . '" data-ext="folder">'
+                  .'<div class="border p-2 rounded text-center">'
                   . '<i class="fa fa-folder"></i><p>' . $file . '</p>'
-                  . '</div>';
+                  . '</div></div>';
                $moreContent = scandir($url . $file . "/");
                if (count($moreContent)) {
                   search(($url . $file . "/"), $files, $folders, $search);
@@ -45,23 +47,26 @@ function search($url, &$files, &$folders, $search)
          if($_POST["root"] == "../trash/"){
             $item = findItem($file, "../trash-data/trash.json");
             if (is_file($url . $file)) {
-               $files .= '<div class="border p-2 m-2 rounded in-trash" tabindex="0" data-path="' . $realUrl . $file . '" data-id="' . $item["id"] . '" data-ext="' . pathinfo(($url . $file), PATHINFO_EXTENSION) . '">'
+               $files .= '<div class="m-2 in-trash" tabindex="0" data-path="' . $realUrl . $file . '" data-id="' . $item["id"] . '" data-ext="' . pathinfo(($url . $file), PATHINFO_EXTENSION) . '">'
+               .'<div class="border p-2 rounded text-center">'
                . '<i class="fa ' . getIcon(($url . $file)) . '"></i><p>' . $item["name"] . '</p>'
-               . '</div>';
+               . '</div></div>';
             } else if (is_dir($url . $file . "/")) {
-               $folders .= '<div class="border p-2 m-2 rounded in-trash" tabindex="0" data-path="' . $realUrl . $file . '" data-id="' . $item["id"] . '" data-ext="folder">'
+               $folders .= '<div class="m-2 in-trash" tabindex="0" data-path="' . $realUrl . $file . '" data-id="' . $item["id"] . '" data-ext="folder">'
+               .'<div class="border p-2 rounded text-center">'
                . '<i class="fa fa-folder"></i><p>' . $item["name"] . '</p>'
-               . '</div>';
+               . '</div></div>';
             }
          }else{
             if (is_file($url . $file)) {
-               $files .= '<div class="border p-2 m-2 rounded file text-center" tabindex="0" data-path="' . $realUrl . $file . '" data-id="' . filectime($url . $file) . '" data-ext="' . pathinfo(($url . $file), PATHINFO_EXTENSION) . '">'
+               $files .= '<div class="rounded file m-2" tabindex="0" data-path="' . $realUrl . $file . '" data-id="' . filectime($url . $file) . '" data-ext="' . pathinfo(($url . $file), PATHINFO_EXTENSION) . '"><div class="border p-2 rounded text-center">'
                . '<i class="fa ' . getIcon(($url . $file)) . '"></i><p>' . pathinfo(($url . $file), PATHINFO_FILENAME) . '</p>'
-               . '</div>';
+               . '</div></div>';
             } else if (is_dir($url . $file . "/")) {
-               $folders .= '<div class="border p-2 m-2 rounded file" tabindex="0" data-path="' . $realUrl . $file . '" data-id="' . filectime($url . $file) . '" data-ext="folder">'
+               $folders .= '<div class="m-2 file" tabindex="0" data-path="' . $realUrl . $file . '" data-id="' . filectime($url . $file) . '" data-ext="folder">'
+               .'<div class="border p-2 rounded text-center">'
                . '<i class="fa fa-folder"></i><p>' . $file . '</p>'
-               . '</div>';
+               . '</div></div>';
             }
          }
       }

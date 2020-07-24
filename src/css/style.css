@@ -227,7 +227,8 @@ body {
 
 .chiller-theme .sidebar-wrapper ul li:hover a i,
 .chiller-theme .sidebar-wrapper .sidebar-menu .sidebar-dropdown.active a i {
-   color: rgb(57, 205, 255);
+   /* color: rgb(57, 205, 255); */
+   color: #007bff;
    text-shadow: 0 0 6px #fff;
 }
 
@@ -241,6 +242,7 @@ body {
 .file,
 .in-trash,
 .in-search {
+   position: relative;
    cursor: pointer;
    text-align: center;
    width: 120px;
@@ -252,24 +254,44 @@ body {
 .in-trash:focus,
 .in-search:hover,
 .in-search:focus {
-   background-color: rgb(57, 205, 255);
-   color: #fff;
+   /*background-color: rgb(57, 205, 255);
+   */
    outline: none;
-   box-shadow: 0 0 6px rgba(0, 0, 0, .3);
+   min-height: 112px;
+   
 }
-/* .file:hover div,
+.file:hover div,
 .file:focus div,
+.in-search:hover div,
+.in-search:focus div,
 .in-trash:hover div,
 .in-trash:focus div{
    position: absolute;
-   background-color: inherit;
-} */
+   z-index: 1;
+   /* background-color: inherit; */
+   outline: initial;
+   background-color: #007bff;
+   color: #fff;
+   outline: none;
+   box-shadow: 0 0 6px rgba(0, 0, 0, .3);
+   transition: all .5s ease-in-out;
+   -webkit-transition: all .2s ease-in-out;
+   -moz-transition: all .5s ease-in-out;
+   -ms-transition: all .5s ease-in-out;
+   -o-transition: all .5s ease-in-out;
+}
 
 .file i,
 .in-trash i,
 .in-search i {
    font-size: 40px;
-   color: rgb(57, 205, 255);
+   /*color: rgb(57, 205, 255);
+   */color: #007bff;
+   transition: all .2s ease-in-out;
+   -webkit-transition: all .2s ease-in-out;
+   -moz-transition: all .2s ease-in-out;
+   -ms-transition: all .2s ease-in-out;
+   -o-transition: all .2s ease-in-out;
 }
 
 .file:hover i,
@@ -286,6 +308,7 @@ body {
 .in-search p,
 .in-trash p {
    width: 100px;
+   min-height: 3.2em;
    padding-bottom: 5px;
    display: -webkit-box;
    -webkit-line-clamp: 2;
@@ -384,7 +407,8 @@ a.a-trash:hover>.count-trash {
 .info-icon i {
    font-size: 34px;
    margin-right: 10px;
-   color: rgb(57, 205, 255);
+   /* color: rgb(57, 205, 255); */
+   color: #007bff;
 }
 
 /*---------------------- ADD BTN -------------------------*/
