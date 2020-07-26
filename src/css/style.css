@@ -106,7 +106,10 @@ body {
 
 
 .sidebar-wrapper .sidebar-menu ul li a {
-   display: inline-block;
+   display: -webkit-box;
+   -webkit-line-clamp: 1;
+   -webkit-box-orient: vertical;
+   overflow: hidden;
    text-decoration: none;
    position: relative;
    padding: 0px 30px 0px 20px;
@@ -114,8 +117,10 @@ body {
    width: 100%;
 }
 
-.sidebar-wrapper .sidebar-menu ul li a:hover {
+.sidebar-wrapper .sidebar-menu ul li a:hover,
+.sidebar-wrapper .sidebar-menu ul li a.open {
    background-color: #f3f1ff;
+   -webkit-line-clamp: initial;
 }
 
 
@@ -258,14 +263,15 @@ body {
    */
    outline: none;
    min-height: 112px;
-   
+
 }
+
 .file:hover div,
 .file:focus div,
 .in-search:hover div,
 .in-search:focus div,
 .in-trash:hover div,
-.in-trash:focus div{
+.in-trash:focus div {
    position: absolute;
    z-index: 1;
    /* background-color: inherit; */
@@ -286,7 +292,8 @@ body {
 .in-search i {
    font-size: 40px;
    /*color: rgb(57, 205, 255);
-   */color: #007bff;
+   */
+   color: #007bff;
    transition: all .2s ease-in-out;
    -webkit-transition: all .2s ease-in-out;
    -moz-transition: all .2s ease-in-out;
