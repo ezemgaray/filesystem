@@ -663,18 +663,18 @@ function expandMedia(element) {
    setTimeout(function () {
       squareModal.style.cssText = `position: absolute; top: 0px; left: 0px; z-index:2; overflow-y: auto;
        width: 100%; height: 100%; border-radius: 5px; background: rgb(20, 20, 20, .3); transition: all .7s ease-in-out;`
-       element.style.cssText = `position: absolute; top: 0%, left: 0%; width: 100%; border-radius: 5px;`
-       element.style.cssText = `position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 50%; min-width: 520px;`
-       var h = window.innerHeight
-       if(element.height > h){
-          element.style.height = "100%";
-          element.style.width = "initial";
-       }
+      element.style.cssText = `position: absolute; top: 0%, left: 0%; width: 100%; border-radius: 5px;`
+      element.style.cssText = `position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 50%; min-width: 520px;`
+      var h = window.innerHeight
+      if (element.height > h) {
+         element.style.height = "100%";
+         element.style.width = "initial";
+      }
       $(squareModal).click(function () {
          $(element).removeAttr("style")
          $(".media").append(element)
          $(squareModal).remove()
       })
 
-   }, 10)
+   }, 10) 
 }
