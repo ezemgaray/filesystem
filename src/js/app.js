@@ -156,7 +156,7 @@ $("#folders, #files").on("click", "div.file, div.in-search, div.in-trash", funct
  */
 function newFileFolderButtons(uri) {
    if (!$("#add-ff").is(':empty') && uri) {
-      if(uri == "trash/") return
+      if (uri == "trash/") return
       $("#add-ff").html(`
          <a href="#" class="m-1 add-btn add-folder" data-toggle="tooltip" data-placement="top" title="Add Folder">
             <i class="fa fa-folder-plus button"></i>
@@ -300,10 +300,10 @@ function openFolders(arrayPath) {
          if (checkOpen && !checkOpen.hasClass("open")) {
             checkOpen.click()
          }
-            aux = $('#menu-list [data-name="' + name + '"]')
+         aux = $('#menu-list [data-name="' + name + '"]')
       } else {
 
-         let checkOpen = $('[data-id="' + aux[0].dataset.id + '"] ~ div > ul > li > a[data-name="' + name + '"]') 
+         let checkOpen = $('[data-id="' + aux[0].dataset.id + '"] ~ div > ul > li > a[data-name="' + name + '"]')
          if (checkOpen && !checkOpen.hasClass("open")) {
             checkOpen.click()
          }
@@ -323,8 +323,8 @@ function editName(elem) {
    let name = $(elem).text()
    let extension = $(elem).attr("data-ext") == "folder" ? "" : "." + $(elem).attr("data-ext")
    let fullName = (name + extension).trim()
-   $(elem).first().text("")
-   $(elem).append($(`<p></p>`).append(icon)
+   console.log($(elem).first().children());
+   $(elem).first().children().text("").append($(`<p></p>`).append(icon)
       .append($('<input type="text" id="rename-folder" class="new-folder" data-toggle="tooltip" data-placement="bottom" title="Enter to save. Click outside the input to cancel">')).append(" " + extension))
    $("#rename-folder").focus()
    $('#rename-folder').tooltip('show')
@@ -643,4 +643,38 @@ function addFile(path) {
          }
       }
    })
+}
+
+/* --------------------------- */
+
+$("aside").on("click", ".media-expand", function (e) {
+   expandMedia($(this).next()[0])
+})
+
+function expandMedia(element) {
+   let squareModal = document.createElement("div")
+   let position = element.getBoundingClientRect()
+   squareModal.style.cssText = `position: absolute; top: ${position.top}px; 
+      left: ${position.left}px; width: ${$(element).width()}px; height: ${$(element).height()}px;`
+   element.style.cssText = "position: absolute; top: 0%, left: 0%; width: 100%;"
+   squareModal.appendChild(element)
+   $("body").append(squareModal)
+
+   setTimeout(function () {
+      squareModal.style.cssText = `position: absolute; top: 0px; left: 0px; z-index:2; overflow-y: auto;
+       width: 100%; height: 100%; border-radius: 5px; background: rgb(20, 20, 20, .3); transition: all .7s ease-in-out;`
+       element.style.cssText = `position: absolute; top: 0%, left: 0%; width: 100%; border-radius: 5px;`
+       element.style.cssText = `position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 50%; min-width: 520px;`
+       var h = window.innerHeight
+       if(element.height > h){
+          element.style.height = "100%";
+          element.style.width = "initial";
+       }
+      $(squareModal).click(function () {
+         $(element).removeAttr("style")
+         $(".media").append(element)
+         $(squareModal).remove()
+      })
+
+   }, 10)
 }

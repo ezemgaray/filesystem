@@ -40,7 +40,7 @@ body {
 
 .page-wrapper .sidebar-wrapper {
    left: 0px;
-   min-width: 250px;
+   min-width: 350px;
 }
 
 @media screen and (min-width: 768px) {
@@ -79,7 +79,7 @@ body {
    max-height: calc(100% - 30px);
    height: calc(100% - 30px);
    width: 100%;
-   max-width: 250px;
+   max-width: 350px;
    overflow-y: auto;
    position: relative;
    padding: 20px 10px;
@@ -232,7 +232,6 @@ body {
 
 .chiller-theme .sidebar-wrapper ul li:hover a i,
 .chiller-theme .sidebar-wrapper .sidebar-menu .sidebar-dropdown.active a i {
-   /* color: rgb(57, 205, 255); */
    color: #007bff;
    text-shadow: 0 0 6px #fff;
 }
@@ -241,6 +240,7 @@ body {
 .main-view {
    text-align: justify;
    padding: 20px;
+   min-width: 466px;
 }
 
 /*---------------------- FILE/TRASH CARD -------------------------*/
@@ -259,8 +259,6 @@ body {
 .in-trash:focus,
 .in-search:hover,
 .in-search:focus {
-   /*background-color: rgb(57, 205, 255);
-   */
    outline: none;
    min-height: 112px;
 
@@ -291,8 +289,6 @@ body {
 .in-trash i,
 .in-search i {
    font-size: 40px;
-   /*color: rgb(57, 205, 255);
-   */
    color: #007bff;
    transition: all .2s ease-in-out;
    -webkit-transition: all .2s ease-in-out;
@@ -414,7 +410,6 @@ a.a-trash:hover>.count-trash {
 .info-icon i {
    font-size: 34px;
    margin-right: 10px;
-   /* color: rgb(57, 205, 255); */
    color: #007bff;
 }
 
@@ -457,11 +452,35 @@ label.add-btn {
 
 
 /*---------------------- MEDIA  PREVIEW -------------------------*/
+.media{
+   position: relative;
+}
 
 .media-preview {
    width: 100%;
    cursor: pointer;
 }
+
+.media .media-expand{
+   position: absolute;
+   top: 0;
+   left: -6px;
+   padding: 5px;
+   color: #fff;
+   background-color: #007bff;
+   cursor: pointer;
+   z-index: 1;
+   border-radius: 3px;
+   -webkit-border-radius: 3px;
+   -moz-border-radius: 3px;
+   -ms-border-radius: 3px;
+   -o-border-radius: 3px;
+}
+
+.media-expand .fa-expand{
+   pointer-events: none;
+}
+
 
 
 /*---------------------- TOAST -------------------------*/
@@ -470,6 +489,7 @@ label.add-btn {
    bottom: 15px;
    right: 15px;
    padding: 10px;
+   z-index: 9999;
 }
 
 .toast {
@@ -482,7 +502,6 @@ label.add-btn {
    top: 15px;
    left: 50%;
    background-color: rgba(0, 0, 0, .3);
-   z-index: 999;
    transform: translateX(-50%);
    -webkit-transform: translateX(-50%);
    -moz-transform: translateX(-50%);
