@@ -272,7 +272,6 @@ body {
 .in-trash:focus div {
    position: absolute;
    z-index: 1;
-   /* background-color: inherit; */
    outline: initial;
    background-color: #007bff;
    color: #fff;
@@ -489,7 +488,7 @@ label.add-btn {
    bottom: 15px;
    right: 15px;
    padding: 10px;
-   z-index: 9999;
+   z-index: 2;
 }
 
 .toast {
@@ -507,6 +506,7 @@ label.add-btn {
    -moz-transform: translateX(-50%);
    -ms-transform: translateX(-50%);
    -o-transform: translateX(-50%);
+   z-index: 2;
 }
 
 /*---------------------- SEARCH -------------------------*/
